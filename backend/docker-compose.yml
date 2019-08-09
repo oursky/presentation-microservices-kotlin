@@ -1,0 +1,11 @@
+version: '3'
+services:
+  backend:
+    image: gradle:5.5-jdk8
+    working_dir: /app
+    command: ./gradlew bootRun
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+      - /app/build/

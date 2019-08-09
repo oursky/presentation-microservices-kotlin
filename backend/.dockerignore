@@ -1,0 +1,12 @@
+.DS_Store
+.git
+*.pem
+*.cer
+*.cert
+*.p12
+*.pfx
+*.key
+.env
+docker-compose.override.yml
+
+build/
