@@ -19,6 +19,6 @@ matrix:
           - $HOME/.gradle/wrapper/
       script:
         - ( cd backend && ./gradlew ktlint test )
-        - ( cd backend && docker build . -t demo )
+        - ( cd backend && docker build -f Dockerfile.auth . -t demo-auth )
 notifications:
   email: false

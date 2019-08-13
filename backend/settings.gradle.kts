@@ -1,1 +1,2 @@
-rootProject.name = "ToDo"
+rootProject.name = "demo"
+include("auth")

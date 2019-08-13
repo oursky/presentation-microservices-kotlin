@@ -8,9 +8,9 @@
 		"files.exclude": {
 			".vscode/": true,
 			"*.code-workspace": true,
+			"**/.gradle/": true,
 			"**/build/": true,
-			"backend/.gradle/": true,
-			"backend/gradle/": true,
+			"**/gradle/": true,
 			"backend/gradlew": true,
 			"backend/gradlew.bat": true
 		},
