@@ -7,6 +7,7 @@
 *.pfx
 *.key
 .env
+.env.bak
 docker-compose.override.yml
 
 build/

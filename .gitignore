@@ -6,6 +6,7 @@
 *.pfx
 *.key
 .env
+.env.bak
 docker-compose.override.yml
 *.code-workspace
 .vscode/

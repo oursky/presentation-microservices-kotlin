@@ -1,4 +1,4 @@
-package com.oursky.presentation.microservices.kotlin.todo
+package com.oursky.presentation.microservices.kotlin.auth
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
-class ToDoApplicationTests {
+class AuthApplicationTests {
     @Test
     fun contextLoads() {
     }

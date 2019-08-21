@@ -18,7 +18,7 @@ matrix:
           - $HOME/.gradle/caches/
           - $HOME/.gradle/wrapper/
       script:
-        - ( cd backend && ./gradlew ktlint test )
-        - ( cd backend && docker build . -t demo )
+        - (cd backend && make secret && make lint test)
+        - (cd backend && docker build -f Dockerfile.auth . -t demo-auth)
 notifications:
   email: false

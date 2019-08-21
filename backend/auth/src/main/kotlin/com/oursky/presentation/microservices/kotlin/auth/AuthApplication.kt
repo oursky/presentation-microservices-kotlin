@@ -1,11 +1,11 @@
-package com.oursky.presentation.microservices.kotlin.todo
+package com.oursky.presentation.microservices.kotlin.auth
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ToDoApplication
+class AuthApplication
 
 fun main(args: Array<String>) {
-    runApplication<ToDoApplication>(*args)
+    runApplication<AuthApplication>(*args)
 }

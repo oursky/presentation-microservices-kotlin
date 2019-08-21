@@ -7,7 +7,8 @@ Presentation code and material for micro-services with kotlin
 ##### Start the server
 ```
 cd backend
-./gradlew bootRun
+make secret
+make run
 ```
 ##### With docker-compose
 ```
@@ -17,14 +18,14 @@ docker-compose -p demo up
 ##### With docker
 ```
 cd backend
-docker build . -t demo
-docker run --rm -it -p 8080:8080 -t demo
+docker build -f Dockerfile.auth . -t demo-auth
+docker run --rm -it -p 8080:8080 -t demo-auth
 # OR
-docker run --rm -it -p 8080:8080 $(docker build -q .)
+docker run --rm -it -p 8080:8080 $(docker build -f Dockerfile.auth -q .)
 ```
 ##### Testing api call
 ```
-curl http://localhost:8080/ping
+curl http://localhost:8080/healthcheck
 ```
 
 <!-- Markdown link & img dfn's -->
