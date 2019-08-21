@@ -11,6 +11,7 @@
 			"**/.gradle/": true,
 			"**/build/": true,
 			"**/gradle/": true,
+			"backend/.env.bak": true,
 			"backend/gradlew": true,
 			"backend/gradlew.bat": true
 		},

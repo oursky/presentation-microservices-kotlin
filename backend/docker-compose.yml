@@ -9,3 +9,5 @@ services:
     volumes:
       - .:/app
       - /app/build/
+    environment:
+      - APP_JWT_SECRET=${APP_JWT_SECRET}
