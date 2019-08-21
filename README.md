@@ -7,7 +7,8 @@ Presentation code and material for micro-services with kotlin
 ##### Start the server
 ```
 cd backend
-./gradlew bootRun
+make secret
+make run
 ```
 ##### With docker-compose
 ```

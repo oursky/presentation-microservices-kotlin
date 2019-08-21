@@ -1,7 +1,7 @@
 FROM gradle:5.5-jdk8 as builder
 WORKDIR /builder
 ADD . /builder
-RUN gradle -p auth build --stacktrace
+RUN gradle --no-daemon -p auth build -x test
 
 FROM openjdk:8-jre-alpine
 WORKDIR /app
