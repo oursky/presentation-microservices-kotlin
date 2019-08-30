@@ -6,3 +6,5 @@ secret:
 	  -i ../../backend/.env.example -o .env
 	@sed -i.bak 's/^APP_DATABASE_HOST/#&/' .env && rm .env.bak
 	@echo 'APP_DATABASE_HOST=localhost' >> .env
+	@sed -i.bak 's/^APP_AUTH_ENDPOINT/#&/' .env && rm .env.bak
+	@echo 'APP_AUTH_ENDPOINT=http://localhost:8000' >> .env

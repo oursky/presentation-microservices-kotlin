@@ -29,7 +29,7 @@ services:
     depends_on:
       - db
     ports:
-      - 8080
+      - 8000
     volumes:
       - /app/auth/build/
       - ./gradlew:/app/gradlew:ro
@@ -38,6 +38,7 @@ services:
       - ./auth:/app/auth
     environment:
       - APP_DEBUG=true
+      - APP_PORT=8000
       - APP_JWT_SECRET=${APP_JWT_SECRET}
       - APP_DATABASE_HOST=${APP_DATABASE_HOST}
       - APP_DATABASE_PORT=${APP_DATABASE_PORT}
@@ -52,7 +53,7 @@ services:
     depends_on:
       - db
     ports:
-      - 8080
+      - 8001
     volumes:
       - /app/app/build/
       - ./gradlew:/app/gradlew:ro
@@ -61,12 +62,14 @@ services:
       - ./app:/app/app
     environment:
       - APP_DEBUG=true
+      - APP_PORT=8001
       - APP_DATABASE_HOST=${APP_DATABASE_HOST}
       - APP_DATABASE_PORT=${APP_DATABASE_PORT}
       - APP_DATABASE_USER=${APP_DATABASE_USER}
       - APP_DATABASE_PASS=${APP_DATABASE_PASS}
       - APP_DATABASE_DBNAME=${APP_DATABASE_DBNAME}
       - APP_DATABASE_SCHEMA=${APP_DATABASE_SCHEMA}
+      - APP_AUTH_ENDPOINT=${APP_AUTH_ENDPOINT}
 volumes:
   dbdata:
     driver: local

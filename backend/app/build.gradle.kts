@@ -28,6 +28,7 @@ dependencies {
 	implementation("org.springframework.security:spring-security-core:5.1.6.RELEASE")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.9")
 	implementation("com.auth0:java-jwt:3.8.1")
+	implementation("khttp:khttp:1.0.0")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test:2.1.7.RELEASE")
 }
