@@ -1,0 +1,188 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: api-server
+  name: api-server
+spec:
+  sessionAffinity: None
+  type: ClusterIP
+  selector:
+    app: api-server
+  ports:
+  - name: auth
+    protocol: TCP
+    port: 8000
+    targetPort: 8000
+  - name: app
+    protocol: TCP
+    port: 8001
+    targetPort: 8001
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: app
+  name: app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: api-server
+    spec:
+      volumes:
+      - name: postgres-init
+        configMap:
+          name: postgres-init
+      containers:
+      - name: db
+        image: postgres:11.2-alpine
+        volumeMounts:
+        - name: postgres-init
+          mountPath: /docker-entrypoint-initdb.d
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: PGSQL_ROOT_USER
+        - name: POSTGRES_PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: PGSQL_ROOT_PASS
+        - name: APP_DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_USER
+        - name: APP_DATABASE_PASS
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_PASS
+        - name: APP_DATABASE_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_DBNAME
+        - name: APP_DATABASE_SCHEMA
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_SCHEMA
+      - name: auth
+        image: gcr.io/oursky-kube/presentation-microservices-kotlin-auth:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        - name: APP_PORT
+          value: "8000"
+        - name: APP_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_JWT_SECRET
+        - name: APP_DATABASE_HOST
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_HOST
+        - name: APP_DATABASE_PORT
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_PORT
+        - name: APP_DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_USER
+        - name: APP_DATABASE_PASS
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_PASS
+        - name: APP_DATABASE_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_DBNAME
+        - name: APP_DATABASE_SCHEMA
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_SCHEMA
+      - name: app
+        image: gcr.io/oursky-kube/presentation-microservices-kotlin-app:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8001
+        env:
+        - name: APP_PORT
+          value: "8001"
+        - name: APP_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_JWT_SECRET
+        - name: APP_DATABASE_HOST
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_HOST
+        - name: APP_DATABASE_PORT
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_PORT
+        - name: APP_DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_USER
+        - name: APP_DATABASE_PASS
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_PASS
+        - name: APP_DATABASE_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_DBNAME
+        - name: APP_DATABASE_SCHEMA
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_DATABASE_SCHEMA
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  labels:
+    app: api-server
+  name: api-server
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    ingress.kubernetes.io/proxy-body-size: 10m
+spec:
+  rules:
+  - host: present-kotlin.pandawork.com
+    http:
+      paths:
+      - path: /auth
+        backend:
+          serviceName: api-server
+          servicePort: 8000
+      - path: /app
+        backend:
+          serviceName: api-server
+          servicePort: 8001
+  tls:
+  - hosts:
+    - present-kotlin.pandawork.com
+    secretName: present-kotlin
