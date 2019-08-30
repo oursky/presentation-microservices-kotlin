@@ -20,5 +20,6 @@ matrix:
       script:
         - (cd backend && make secret && make lint test)
         - (cd backend && docker build -f Dockerfile.auth . -t demo-auth)
+        - (cd backend && docker build -f Dockerfile.app  . -t demo-app)
 notifications:
   email: false
