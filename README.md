@@ -25,7 +25,8 @@ docker run --rm -it -p 8080:8080 $(docker build -f Dockerfile.auth -q .)
 ```
 ##### Testing api call
 ```
-curl http://localhost:8080/healthcheck
+curl -vvv http://localhost:8080/auth/ping
+curl -vvv http://localhost:8080/app/ping
 ```
 
 <!-- Markdown link & img dfn's -->
