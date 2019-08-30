@@ -159,6 +159,11 @@ spec:
             secretKeyRef:
               name: api-server
               key: APP_DATABASE_SCHEMA
+        - name: APP_AUTH_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: api-server
+              key: APP_AUTH_ENDPOINT
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
