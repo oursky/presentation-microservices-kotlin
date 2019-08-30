@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.JWT
+import com.auth0.jwt.exceptions.JWTVerificationException
 
 @Service
 class JwtService {
@@ -33,5 +34,14 @@ class JwtService {
             .withExpiresAt(Date(now + (jwtAccessLifetime * 1000)))
             .sign(jwtAlgorithm)
         return accessToken
+    }
+
+    fun verify(jwt: String): Long? {
+        return try {
+            val decoded = jwtVerifier.verify(jwt)
+            decoded.getClaim("user_id").asLong()
+        } catch (e: JWTVerificationException) {
+            null
+        }
     }
 }
