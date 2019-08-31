@@ -13,6 +13,7 @@ public class PingController {
     @Autowired
     lateinit var authService: AuthService
 
+    // curl -X GET http://127.0.0.1:8080/app/ping
     @GetMapping("/app/ping")
     fun ping(): ResponseEntity<String> {
         return ResponseEntity.ok("pong")
