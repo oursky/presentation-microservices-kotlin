@@ -28,7 +28,7 @@ public class AuthController {
         val userId: Long,
         val accessToken: String
     )
-    // curl -X POST http://127.0.0.1:8080/auth/signup -H "Content-Type: application/json" -d '{"user": "elliot", "pass": "Admin123"}'
+    // curl -X POST http://127.0.0.1:8080/auth/signup -H "Content-Type: application/json" -d '{"user": "test", "pass": "1234"}'
     @PostMapping("/signup")
     fun login(
         @RequestBody body: SignupRequest
@@ -49,7 +49,7 @@ public class AuthController {
         val userId: Long,
         val accessToken: String
     )
-    // curl -X POST http://127.0.0.1:8080/auth/login -H "Content-Type: application/json" -d '{"user": "elliot", "pass": "Admin123"}'
+    // curl -X POST http://127.0.0.1:8080/auth/login -H "Content-Type: application/json" -d '{"user": "test", "pass": "1234"}'
     @PostMapping("/login")
     fun login(
         @RequestBody body: LoginRequest
