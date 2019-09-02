@@ -10,3 +10,4 @@
 docker-compose.override.yml
 *.code-workspace
 .vscode/
+.idea/
