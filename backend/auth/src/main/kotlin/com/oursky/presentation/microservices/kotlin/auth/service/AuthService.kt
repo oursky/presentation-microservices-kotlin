@@ -28,9 +28,8 @@ class AuthService {
 
     fun login(username: String, password: String): Long? {
         try {
-            val hashed = BCryptPasswordEncoder().encode(password)
             val auth = repository.findByUsername(username)
-            if (!BCryptPasswordEncoder().matches(password, hashed)) return null
+            if (!BCryptPasswordEncoder().matches(password, auth.password)) return null
             return auth.id
         } catch (e: EmptyResultDataAccessException) {
             return null
