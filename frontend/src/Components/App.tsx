@@ -17,7 +17,7 @@ class App extends React.Component {
     })
 
     componentDidMount() {
-        fetch("http://localhost:8080/product/all")
+        fetch("http://localhost:8080/product/")
         .then(res => res.json())
         .then(
           (result) => {

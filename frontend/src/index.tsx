@@ -1,17 +1,20 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
-// import Card from './Card';
-import App from './App';
-import NavBar from './Navbar';
-
+import routes from "./routes";
 import * as serviceWorker from './serviceWorker';
 
+// ReactDOM.render(
+//     <div>
+//         <NavBar />
+//         <br />
+//         <App />
+//         <br />
+//         <NewProduct />
+//     </div>, document.getElementById('root'));
+
 ReactDOM.render(
-    <div>
-        <NavBar />
-        <br />
-        <App />
-    </div>, document.getElementById('root'));
+    routes,
+    document.getElementById("root")
+)
 
 // // If you want your app to work offline and load faster, you can change
 // // unregister() to register() below. Note this comes with some pitfalls.
