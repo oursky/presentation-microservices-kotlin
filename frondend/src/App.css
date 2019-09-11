@@ -1,0 +1,9 @@
+div.polaroid {
+    width: 250px;
+    display: inline-block;
+    margin: 12px;
+}
+
+.test {
+    text-align: rght;
+}
