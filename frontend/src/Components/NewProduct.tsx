@@ -1,11 +1,5 @@
 import React from "react";
-// import { render } from "react-dom";
-import TextField from '@material-ui/core/TextField';
-import  { Redirect } from 'react-router-dom'
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid'
+import { TextField, InputAdornment, Button, Typography, Grid } from '@material-ui/core';
 
 export default class NewProduct extends React.Component {
 
