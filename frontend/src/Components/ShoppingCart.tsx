@@ -11,7 +11,8 @@ import {
     Avatar,
     Container,
     ListItemSecondaryAction,
-    IconButton
+    IconButton,
+    Paper
 } from '@material-ui/core';
 
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -98,56 +99,59 @@ export default class ShoppingCart extends React.Component {
                 <Typography variant="h3" component="h3">
                     Shopping Cart
                 </Typography>
-                <List>
-                    {
+                <br />
+                <Paper style={{maxHeight: '400px', overflow: 'auto'}}>
+                    <List >
+                        {
+                            
+                            this.state.cart.map(val => {
                         
-                        this.state.cart.map(val => {
-                    
-                            var tmp = this.state.items.find((item: { id: number, name: string, description: string, price: number, image: string }) => item.id === val);
-                           
-                            if(typeof tmp !== 'undefined'){
-                                product = tmp;
-                                subTotal += product.price;
-                                return (
-                                    <div>
-                                        <ListItem alignItems="flex-start">
-                                            <ListItemAvatar>
-                                                {
-                                                    product.image && 
-                                                    <Avatar alt={product.name} src={`http://localhost:9000/images/${product.image}`} />
-                                                }
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary= {product.name}
-                                                secondary={
-                                                    <React.Fragment>
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        color="textPrimary"
-                                                    >
-                                                        {product.description}
-                                                    </Typography>
-                                                    <br />
-                                                    $HKD {product.price}
-                                                    </React.Fragment>
-                                                }
-                                                />
-                                            <ListItemSecondaryAction>
-                                                <IconButton edge="end" aria-label="delete" onClick = {() => this.deleteProductFromCart(product.id)}>
-                                                <DeleteIcon />
-                                                </IconButton>
-                                            </ListItemSecondaryAction>
-                                        </ListItem>
-                                        <Divider variant="inset" component="li" />
-                                    </div>       
-                                )
-                            }else{
-                                return ""
-                            }
-                        })
-                    }
-                </List>
+                                var tmp = this.state.items.find((item: { id: number, name: string, description: string, price: number, image: string }) => item.id === val);
+                            
+                                if(typeof tmp !== 'undefined'){
+                                    product = tmp;
+                                    subTotal += product.price;
+                                    return (
+                                        <div>
+                                            <ListItem alignItems="flex-start">
+                                                <ListItemAvatar>
+                                                    {
+                                                        product.image && 
+                                                        <Avatar alt={product.name} src={`http://localhost:9000/images/${product.image}`} />
+                                                    }
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary= {product.name}
+                                                    secondary={
+                                                        <React.Fragment>
+                                                        <Typography
+                                                            component="span"
+                                                            variant="body2"
+                                                            color="textPrimary"
+                                                        >
+                                                            {product.description}
+                                                        </Typography>
+                                                        <br />
+                                                        $HKD {product.price}
+                                                        </React.Fragment>
+                                                    }
+                                                    />
+                                                <ListItemSecondaryAction>
+                                                    <IconButton edge="end" aria-label="delete" onClick = {() => this.deleteProductFromCart(product.id)}>
+                                                    <DeleteIcon />
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>
+                                            </ListItem>
+                                            <Divider variant="inset" component="li" />
+                                        </div>       
+                                    )
+                                }else{
+                                    return ""
+                                }
+                            })
+                        }
+                    </List>
+                </Paper>
                 <Typography variant="overline" >
                     Sub Total: $HKD {subTotal}
                 </Typography>
