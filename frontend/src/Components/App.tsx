@@ -3,7 +3,7 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-// import CardMedia from '@material-ui/core/CardMedia';
+import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
@@ -35,6 +35,17 @@ class App extends React.Component {
         )
     }
     
+    async deleteProduct(id: number) {
+      try{
+        const result = await fetch(`http://localhost:8080/product/${id}`, {
+          method: "DELETE"
+        }).then(res => res.json())
+        console.log(result);
+        window.location.reload();
+      }catch(e){
+        console.error("Error in deleting product: ", e)
+      }
+    }
 
     render() {
         const {
@@ -51,9 +62,16 @@ class App extends React.Component {
         } else {
 
 
-           return items.map((item: { name: string, description: string, price: number }) => (
+           return items.map((item: { id: number, name: string, description: string, price: number, image: string }) => (
             <Card className="polaroid">
               <CardActionArea>
+                {
+                  item.image != null && item.image != "" && 
+                  <CardMedia
+                    image={"http://localhost:9000/images/" + item.image}
+                    style = {{height: 140}}
+                  />
+                }
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2">
                     {item.name}
@@ -70,8 +88,8 @@ class App extends React.Component {
                 <Button size="small" color="primary">
                   Share
                 </Button>
-                <Button size="small" color="primary">
-                  Learn More
+                <Button size="small" color="secondary" onClick = {() => this.deleteProduct(item.id)}>
+                  Delete
                 </Button>
               </CardActions>
             </Card>
