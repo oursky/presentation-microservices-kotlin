@@ -6,6 +6,7 @@ import Navbar from './Components/Navbar';
 import NewProductPage from './Components/NewProduct';
 import ShoppingCart from './Components/ShoppingCart';
 import Login from './Components/Login';
+import Register from './Components/Register';
 
 const history = createBrowserHistory();
 
@@ -17,5 +18,6 @@ export default (
         <Route path = "/new" exact component = {NewProductPage} />
         <Route path = "/cart" exact component = {ShoppingCart} />
         <Route path = "/login" exact component = {Login} />
+        <Route path = "/register" exact component = {Register} />
     </Router>
 );
