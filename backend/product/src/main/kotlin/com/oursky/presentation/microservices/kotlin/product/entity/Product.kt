@@ -8,20 +8,20 @@ import javax.persistence.Column
 
 @Entity
 data class Product(
-        @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
         val id: Long = -1,
 
-        @Column(nullable = false, unique = false, length = 256)
+    @Column(nullable = false, unique = false, length = 256)
         val name: String = "",
 
-        @Column(nullable = true, unique = false, length = 256)
+    @Column(nullable = true, unique = false, length = 256)
         val description: String? = "",
 
-        @Column(nullable = false)
+    @Column(nullable = false)
         val price: Float = 0f,
 
-        @Column(nullable = true)
+    @Column(nullable = true)
         val image: String? = "",
 
-        val enabled: Boolean = true
+    val enabled: Boolean = true
 )

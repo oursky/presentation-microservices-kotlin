@@ -5,5 +5,4 @@ import org.springframework.data.repository.CrudRepository
 import com.oursky.presentation.microservices.kotlin.product.entity.Product
 
 @Repository
-interface ProductRepository : CrudRepository <Product, Long> {
-}
+interface ProductRepository : CrudRepository <Product, Long>
