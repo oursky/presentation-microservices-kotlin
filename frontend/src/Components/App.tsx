@@ -7,7 +7,8 @@ import {
   CardContent, 
   CardMedia, 
   Button, 
-  Typography 
+  Typography,
+  Container
 } from '@material-ui/core';
 
 import "./App.css"
@@ -85,7 +86,7 @@ export default class App extends React.Component {
       return <div> Loading... </div>;
     } else {
       return (
-        <div style = {{display: "flex"}}>
+        <Container>
             <br />
             {
               items.map((item: { id: number, name: string, description: string, price: number, image: string }) => (
@@ -121,7 +122,7 @@ export default class App extends React.Component {
                 </Card>
               ))
             }
-        </div>
+        </Container>
       )
     }
   }
