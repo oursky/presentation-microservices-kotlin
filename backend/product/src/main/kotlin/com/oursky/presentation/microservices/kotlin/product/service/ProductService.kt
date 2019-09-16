@@ -24,7 +24,7 @@ class ProductService {
 
     constructor() {
         if (!minioClient.bucketExists("images")) {
-           minioClient.makeBucket("images")
+            minioClient.makeBucket("images")
         }
         minioClient.setBucketPolicy("images", """
             {
@@ -66,8 +66,8 @@ class ProductService {
     fun addNewProduct(
         name: String,
         description: String,
-        price: Float, image:
-        MultipartFile
+        price: Float,
+        image: MultipartFile
     ): Long? {
         try {
             val currentTimestamp = System.currentTimeMillis().toString()
@@ -75,9 +75,25 @@ class ProductService {
             val md = MessageDigest.getInstance("SHA-1")
             val digest = md.digest(bytes)
             val objectName = digest.fold("", { str, it -> str + "%02x".format(it) })
-            val headerMap: HashMap<String, String> = hashMapOf<String,String>("Content-Type" to "application/octet-stream")
-            minioClient.putObject("images", objectName, image.getInputStream(), image.getSize(), headerMap)
-            val product = repository.save(Product(name = name, description = description, price = price, enabled = true, image = objectName))
+            val headerMap: HashMap<String, String> = hashMapOf<String, String>(
+                "Content-Type" to "application/octet-stream"
+            )
+            minioClient.putObject(
+                "images",
+                objectName,
+                image.getInputStream(),
+                image.getSize(),
+                headerMap
+            )
+            val product = repository.save(
+                Product(
+                    name = name,
+                    description = description,
+                    price = price,
+                    enabled = true,
+                    image = objectName
+                )
+            )
             return product.id
         } catch (e: Throwable) {
             println(e.message)
