@@ -11,6 +11,8 @@ import {
   Container
 } from '@material-ui/core';
 
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCartOutlined';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForeverOutlined';
 import "./App.css"
 
 export default class App extends React.Component {
@@ -60,6 +62,7 @@ export default class App extends React.Component {
   }
   
   async deleteProduct(id: number) {
+    if(!window.confirm("Are you sure you want to DELETE this product ?")) return
     try{
       const result = await fetch(`http://localhost:8080/product/${id}`, {
         method: "DELETE"
@@ -113,10 +116,10 @@ export default class App extends React.Component {
                   </CardActionArea>
                   <CardActions>
                     <Button size="small" color="primary" onClick = {() => this.addProductToCart(item.id)}>
-                      Add to Cart
+                      <AddShoppingCartIcon />
                     </Button>
                     <Button size="small" color="secondary" onClick = {() => this.deleteProduct(item.id)}>
-                      Delete Product
+                      <DeleteForeverIcon /> Delete Product
                     </Button>
                   </CardActions>
                 </Card>
