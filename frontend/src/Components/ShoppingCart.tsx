@@ -1,4 +1,5 @@
 import React from "react";
+import APIService from "../APIService"
 
 import { 
     List, 
@@ -27,9 +28,9 @@ export default class ShoppingCart extends React.Component {
     })
 
     deleteProductFromCart(id: number) {
-        var index = this.state.cart.indexOf(id)
+        const index = this.state.cart.indexOf(id)
         if( index === -1 ) return
-        var copyOfArr = [...this.state.cart]
+        let copyOfArr = [...this.state.cart]
         copyOfArr.splice(index, 1);
         localStorage.setItem("cart", JSON.stringify(copyOfArr))
         this.setState({
@@ -45,23 +46,20 @@ export default class ShoppingCart extends React.Component {
     }
 
     componentDidMount(){
-        fetch("http://localhost:8080/product/")
-        .then(res => res.json())
-        .then(
-            (result) => {
-                this.setState({
-                    items: result.products
-                });
-            },
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error: error
-                });
-            }
-        );
+        APIService.Products.list()
+        .then(result => {
+            this.setState({
+                items: result
+            });
+        })
+        .catch(err => {
+            this.setState({
+                isLoaded: true,
+                error: err
+            });
+        })
 
-        var storageCart = localStorage.getItem("cart")
+        const storageCart = localStorage.getItem("cart")
         if(storageCart !== null && storageCart !== ""){
             this.setState({
                 cart: JSON.parse(storageCart)
@@ -106,7 +104,7 @@ export default class ShoppingCart extends React.Component {
                             
                             this.state.cart.map(val => {
                         
-                                var tmp = this.state.items.find((item: { id: number, name: string, description: string, price: number, image: string }) => item.id === val);
+                                const tmp = this.state.items.find((item: { id: number, name: string, description: string, price: number, image: string }) => item.id === val);
                             
                                 if(typeof tmp !== 'undefined'){
                                     product = tmp;

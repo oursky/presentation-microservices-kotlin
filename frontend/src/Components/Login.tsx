@@ -1,21 +1,19 @@
 import React from "react";
+import APIService from "../APIService"
 import { TextField, Button, Typography, Grid } from '@material-ui/core';
 
 export default class Login extends React.Component{
     handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        var form = document.querySelector("form");
+        const form = document.querySelector("form");
         if( !form ) return false;
-        var formData = new FormData(form);
 
-        fetch("http://127.0.0.1:8080/auth/login", {
-            method: "POST",
-            body: formData
-        }).then(async v => {
-            const data = await v.json();
-            console.log(data);
+        APIService.User.login(new FormData(form))
+        .then(result => {
+            console.log(result);
             alert("Done")
-        }).catch(e => {
+        })
+        .catch(e => {
             alert(`Error: ${e}`)
         })
     }

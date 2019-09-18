@@ -1,4 +1,5 @@
 import React from "react";
+import APIService from "../APIService"
 import { TextField, InputAdornment, Button, Typography, Grid } from '@material-ui/core';
 
 export default class NewProduct extends React.Component {
@@ -7,16 +8,13 @@ export default class NewProduct extends React.Component {
         event.preventDefault();
         var form = document.querySelector("form");
         if( !form ) return false;
-        var formData = new FormData(form);
 
-        fetch("http://127.0.0.1:8080/product/", {
-            method: "POST",
-            body: formData
-        }).then(async v => {
-            const {productId} = await v.json();
+        APIService.Products.add(new FormData(form))
+        .then( productId => {
             alert(`New Prodcut Added !\nProduct ID: ${productId}`);
-        }).catch(e => {
-            alert(`Error: ${e}`)
+        })
+        .catch(err => {
+            alert(`Error: ${err}`)
         })
     }
 
