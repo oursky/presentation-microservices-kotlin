@@ -13,7 +13,7 @@ import {
 
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCartOutlined';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForeverOutlined';
-import "./style.css"
+import "./App.css"
 import APIService from '../APIService'
 
 export default class App extends React.Component {
@@ -118,7 +118,7 @@ export default class App extends React.Component {
 				<br />
 				{
 					items.map((item: { id: number, name: string, description: string, price: number, image: string }) => (
-					<Card className="polaroid">
+					<Card className="myCard">
 						<CardActionArea>
 						{
 							item.image !== null && item.image !== "" && 
