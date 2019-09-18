@@ -13,7 +13,7 @@ import {
 
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCartOutlined';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForeverOutlined';
-import "./App.css"
+import "./style.css"
 import APIService from '../APIService'
 
 export default class App extends React.Component {
@@ -21,10 +21,14 @@ export default class App extends React.Component {
 		error: "",
 		isLoaded: false,
 		items: [],
-		cart: [] as number[]
+		cart: [] as number[],
+		updatingItemsAndCart: false
 	})
 
-	componentDidMount() {
+	updateStateItemsAndCart(){
+		this.setState({
+			updatingItemsAndCart: true
+		})
 		APIService.Products.list()
 		.then( result => {
 			this.setState({
@@ -43,8 +47,20 @@ export default class App extends React.Component {
 		if(storageCart !== null && storageCart !== ""){
 			this.setState({
 				cart: JSON.parse(storageCart)
+			}, () => {
+				this.setState({
+					updatingItemsAndCart: false
+				})
 			});
+		}else{
+			this.setState({
+				updatingItemsAndCart: false
+			})
 		}
+	}
+
+	componentDidMount() {
+		this.updateStateItemsAndCart()
 	}
 
 	addProductToCart(id: number) {
