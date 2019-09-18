@@ -1,9 +1,15 @@
+import { useState } from "react";
 import React from "react";
-import APIService from "../APIService"
+import APIService from "../APIService";
 import { TextField, Button, Typography, Grid } from '@material-ui/core';
+import PopupBox from "./PopupBox";
 
-export default class Login extends React.Component{
-    handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+export default function Login() {
+
+    const [loginResult, setLoginResult] = useState("")
+
+
+    function handleFormSubmit (event: React.FormEvent<HTMLFormElement>){
         event.preventDefault();
         const form = document.querySelector("form");
         if( !form ) return false;
@@ -11,70 +17,73 @@ export default class Login extends React.Component{
         APIService.User.login(new FormData(form))
         .then(result => {
             console.log(result);
-            alert("Done")
+            setLoginResult("Login Successfully")
         })
         .catch(e => {
-            alert(`Error: ${e}`)
+            console.error("Erorrrr: ", e)
+            setLoginResult("Error while logging in...")
         })
     }
 
-    render(){
-        return (
+    return (
+        <div>
 
-            <div>
-                <Grid
-                    container
-                    spacing={0}
-                    direction="column"
-                    alignItems="center"
-                    style={{ minHeight: '100vh' }}
-                >
+            {
+                loginResult !== "" && <PopupBox title = "Login Result" message = {loginResult} />
+            }
 
-                    <Grid item xs={4}>
-                        <Typography variant="h4" component="h4">
-                            Login
-                        </Typography>
+            <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                style={{ minHeight: '100vh' }}
+            >
+
+                <Grid item xs={4}>
+                    <Typography variant="h4" component="h4">
+                        Login
+                    </Typography>
+
+                    <br />
+
+                    <form onSubmit = {handleFormSubmit} >
+
+                        <fieldset>
+
+                            <TextField
+                                required
+                                fullWidth
+                                name = "user"
+                                variant = "outlined"
+                                label = "Username" 
+                            />
+
+                            <br />
+                            <br />
+
+                            <TextField
+                                fullWidth
+                                required
+                                name = "pass"
+                                type = "password"
+                                variant = "outlined"
+                                label = "Password" 
+                            />
+
+                        </fieldset>
 
                         <br />
+                        <br />
 
-                        <form onSubmit = {this.handleFormSubmit} >
-
-                            <fieldset>
-
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name = "user"
-                                    variant = "outlined"
-                                    label = "Username" 
-                                />
-
-                                <br />
-                                <br />
-
-                                <TextField
-                                    fullWidth
-                                    required
-                                    name = "pass"
-                                    type = "password"
-                                    variant = "outlined"
-                                    label = "Password" 
-                                />
-
-                            </fieldset>
-
-                            <br />
-                            <br />
-
-                            <Button fullWidth variant = "outlined" color = "primary" type = "submit">
-                                Submit
-                            </Button>
-                            
-                        </form>
-                    </Grid>   
-                    
-                </Grid> 
-            </div>
-        )
-    }
+                        <Button fullWidth variant = "outlined" color = "primary" type = "submit">
+                            Submit
+                        </Button>
+                        
+                    </form>
+                </Grid>   
+                
+            </Grid> 
+        </div>
+    )
 }
