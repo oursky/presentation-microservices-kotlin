@@ -2,12 +2,9 @@ import { useState } from "react";
 import React from "react";
 import { Button, Typography, Modal, Divider } from '@material-ui/core';
 import "../Styles/PopupBox.css"
+import PopupProps from "../Interfaces/PopupProps";
 
-
-export default function PopupBox(props: {
-    title: string, 
-    message: string
-}) {
+export default function PopupBox(props: PopupProps) {
     const [open, setOpen] = useState(true)
 
     return (
@@ -15,7 +12,7 @@ export default function PopupBox(props: {
             open = {open}
             onClose = {() => setOpen(false)}
         >
-            <div className="modalBox">
+            <div className="PopupBox">
 
                 <Typography variant = "h6">
                     {props.title}
