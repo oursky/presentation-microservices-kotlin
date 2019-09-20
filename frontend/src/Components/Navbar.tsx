@@ -14,7 +14,8 @@ import {
     ShoppingCartRounded
 } from '@material-ui/icons';
 import MenuIcon from '@material-ui/icons/Menu'
-import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
+import {  withStyles } from '@material-ui/core/styles';
+import "../Styles/Navbar.css";
 
 const StyledMenu = withStyles({
     paper: {
@@ -47,36 +48,8 @@ const StyledMenuItem = withStyles(theme => ({
     },
 }))(MenuItem);
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-
-    root: {
-         flexGrow: 1,
-    },
-
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-
-    menuItems: {
-        marginLeft: 10,
-        marginRight: 'auto',
-    },
-
-    menuItem: {
-        display: 'inline-block'
-    },
-
-    menuItemText:{
-        display: 'inline-block',
-        paddingTop: theme.spacing(1)
-    }
-  }),
-);
-
 export default function Navbar(){
 
-    const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
@@ -91,7 +64,7 @@ export default function Navbar(){
         <div>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <IconButton edge="start" className = "menuButton" color="inherit" aria-label="menu">
                         <MenuIcon />
                     </IconButton>
 
@@ -99,19 +72,18 @@ export default function Navbar(){
                         E-Commerce
                     </Typography>
                     
-                    <section className = {classes.menuItems}>
-                        <MenuItem className = {classes.menuItem}>
-                            <Link className = {classes.menuItemText} to = "/" style = {{ textDecoration: 'none', color: "white" }}>Products</Link>
+                    <section className = "menuItems">
+                        <MenuItem className = "menuItem">
+                            <Link className = "menuItemText" to = "/">Products</Link>
                         </MenuItem>
 
-                        <MenuItem className = {classes.menuItem}>
-                            <Link className = {classes.menuItemText} to = "/new" style = {{ textDecoration: 'none', color: "white" }}>Add Products</Link>
+                        <MenuItem className = "menuItem">
+                            <Link className = "menuItemText" to = "/new">Add Products</Link>
                         </MenuItem>
-
                     </section>
                     
                     <MenuItem>
-                        <Link className = {classes.menuItemText} to = "/cart" style = {{ textDecoration: 'none', color: "white" }}>
+                        <Link className = "menuItemText" to = "/cart">
                             <ShoppingCartRounded />
                         </Link>
                     </MenuItem>
@@ -119,9 +91,6 @@ export default function Navbar(){
                     <MenuItem aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                         <AccountCircleRounded />
                     </MenuItem>
-
-
-
                 </Toolbar>
             </AppBar>
             <StyledMenu

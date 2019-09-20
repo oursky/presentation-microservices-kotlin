@@ -1,0 +1,20 @@
+.menuButton {
+    margin-right: 6px;
+}
+
+.menuItems {
+    display: flex;
+    margin-left: 10;
+    margin-right: auto;
+}
+
+.menuItem {
+    display: inline-block;
+}
+
+.menuItemText {
+    display: inline-block;
+    padding-top: 3px;
+    text-decoration: none;
+    color: white;
+}
