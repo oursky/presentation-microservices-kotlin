@@ -16,7 +16,7 @@ import {
 
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCartOutlined';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForeverOutlined';
-import "./App.css"
+import "../Styles/App.css"
 import APIService from '../APIService'
 
 export default class App extends React.Component {

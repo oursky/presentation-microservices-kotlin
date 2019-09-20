@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import { Button, Typography, Modal, Divider } from '@material-ui/core';
-import "./PopupBox.css"
+import "../Styles/PopupBox.css"
 
 
 export default function PopupBox(props: {

@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import UploadIcon from '@material-ui/icons/CloudUploadOutlined'
 import PopupBox from "./PopupBox";
-import "./NewProduct.css"
+import "../Styles/NewProduct.css"
 
 export default function NewProduct(){
 
