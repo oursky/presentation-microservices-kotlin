@@ -21,6 +21,20 @@ export default function NewProduct(){
         event.preventDefault();
         const form = document.querySelector("form");
         if( !form ) return false;
+        const formData = new FormData(form);
+
+        const formPrice = formData.get("price");
+        
+        if(typeof formPrice !== "string"){
+            setSubmitResult(`Incorrect product price!`)
+            return
+        }
+
+        const price = parseFloat(formPrice)
+        if(isNaN(price)){
+            setSubmitResult(`Product Price is not a number !`)
+            return
+        }
 
         APIService.Products.add(new FormData(form))
         .then( productId => {
@@ -80,7 +94,6 @@ export default function NewProduct(){
                             name = "price"
                             label = "Product Price" 
                             variant = "outlined"
-                            type = "number"
                             InputProps={{
                                 startAdornment: <InputAdornment position="start">$</InputAdornment>,
                             }}
