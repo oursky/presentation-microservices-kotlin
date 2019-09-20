@@ -8,7 +8,10 @@ import {
   CardMedia, 
   Button, 
   Typography,
-  Container
+  Container,
+  Paper,
+  CssBaseline,
+  CircularProgress
 } from '@material-ui/core';
 
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCartOutlined';
@@ -99,57 +102,72 @@ export default class App extends React.Component {
 
 		if (error) {
 			return (
-				<div> 
-					Something went wrong :( Try again later.
-					<br />
-					{
-						error
-					}
-				</div>
+				<Container>
+					<CssBaseline />
+					<Paper className = "myPaper">
+						<Typography>
+							Something went wrong :(
+							{
+								error
+							}
+						</Typography>
+					</Paper>
+				</Container>
+
 			);
 		}
 
 		if (!isLoaded) {
-			return <div> Loading... </div>;
+			return (
+				<Container>
+					<CssBaseline />
+					<Paper className = "myPaper">
+						<CircularProgress/>
+					</Paper>
+				</Container>
+			);
 		}
 			
 		return (
 			<Container>
-				<br />
-				{
-					items.map((item: { id: number, name: string, description: string, price: number, image: string }) => (
-					<Card className="myCard">
-						<CardActionArea>
-						{
-							item.image !== null && item.image !== "" && 
-							<CardMedia
-							image={"http://localhost:9000/images/" + item.image}
-							style = {{height: 140}}
-							/>
-						}
-						<CardContent>
-							<Typography gutterBottom variant="h5" component="h2">
-							{item.name}
-							</Typography>
-							<Typography variant="body2" color="textSecondary" component="p">
-							{item.description}
-							</Typography>
-							<Typography variant="body2" color="textSecondary" component="p">
-							${item.price}
-							</Typography>
-						</CardContent>
-						</CardActionArea>
-						<CardActions>
-						<Button size="small" color="primary" onClick = {() => this.addProductToCart(item.id)}>
-							<AddShoppingCartIcon />
-						</Button>
-						<Button size="small" color="secondary" onClick = {() => this.deleteProduct(item.id)}>
-							<DeleteForeverIcon /> Delete Product
-						</Button>
-						</CardActions>
-					</Card>
-					))
-				}
+				<CssBaseline />
+				<Paper>
+					<br />
+					{
+						items.map((item: { id: number, name: string, description: string, price: number, image: string }) => (
+						<Card className="myCard">
+							<CardActionArea>
+							{
+								item.image !== null && item.image !== "" && 
+								<CardMedia
+								image={"http://localhost:9000/images/" + item.image}
+								style = {{height: 140}}
+								/>
+							}
+							<CardContent>
+								<Typography gutterBottom variant="h5" component="h2">
+								{item.name}
+								</Typography>
+								<Typography variant="body2" color="textSecondary" component="p">
+								{item.description}
+								</Typography>
+								<Typography variant="body2" color="textSecondary" component="p">
+								${item.price}
+								</Typography>
+							</CardContent>
+							</CardActionArea>
+							<CardActions>
+							<Button size="small" color="primary" onClick = {() => this.addProductToCart(item.id)}>
+								<AddShoppingCartIcon />
+							</Button>
+							<Button size="small" color="secondary" onClick = {() => this.deleteProduct(item.id)}>
+								<DeleteForeverIcon /> Delete Product
+							</Button>
+							</CardActions>
+						</Card>
+						))
+					}
+				</Paper>
 			</Container>
 		)
 	}
