@@ -8,10 +8,8 @@ import {
     Typography, 
     CssBaseline,
     Container,
-    Paper,
-    Avatar
+    Paper
 } from '@material-ui/core';
-import UploadIcon from '@material-ui/icons/CloudUploadOutlined'
 import PopupBox from "./PopupBox";
 import "../Styles/NewProduct.css"
 
