@@ -43,7 +43,7 @@ export default function Register(){
             <CssBaseline />
 
             {
-                submitResult === "" ? "" : <PopupBox title = "Registeration Result" message = {submitResult} />
+                submitResult && <PopupBox title = "Registeration Result" message = {submitResult} open = {!!submitResult} onCloseClick = {() => setSubmitResult("")}/>
             }
 
             <Paper className = "MyPaper">

@@ -24,7 +24,7 @@ export default function NewProduct(){
         const formData = new FormData(form);
 
         const formPrice = formData.get("price");
-        
+
         if(typeof formPrice !== "string"){
             setSubmitResult(`Incorrect product price!`)
             return
@@ -51,7 +51,7 @@ export default function NewProduct(){
             <CssBaseline />
 
             {
-                submitResult === "" ? "" : <PopupBox title = "Submit Result" message = {submitResult}/>
+                submitResult && <PopupBox title = "Submit Result" message = {submitResult} open = {!!submitResult} onCloseClick = {() => setSubmitResult("")}/>
             }
 
                 <Paper className = "MyPaper">

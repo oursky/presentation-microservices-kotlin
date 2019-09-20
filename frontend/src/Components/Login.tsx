@@ -39,7 +39,7 @@ export default function Login() {
             <CssBaseline />
 
             {
-                loginResult !== "" && <PopupBox title = "Login Result" message = {loginResult} />
+                loginResult !== "" && <PopupBox title = "Login Result" message = {loginResult} open = {!!loginResult} onCloseClick = {() => setLoginResult("")} />
             }
 
             <Paper className = "MyPaper">
