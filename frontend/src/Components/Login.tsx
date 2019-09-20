@@ -1,8 +1,16 @@
 import { useState } from "react";
 import React from "react";
 import APIService from "../APIService";
-import { TextField, Button, Typography, Grid } from '@material-ui/core';
+import { 
+    TextField, 
+    Button, 
+    Typography, 
+    Container,
+    Paper,
+    CssBaseline
+} from '@material-ui/core';
 import PopupBox from "./PopupBox";
+import "../Styles/Login.css"
 
 export default function Login() {
 
@@ -26,64 +34,52 @@ export default function Login() {
     }
 
     return (
-        <div>
+        <Container maxWidth = "xs" component = "main">
+
+            <CssBaseline />
 
             {
                 loginResult !== "" && <PopupBox title = "Login Result" message = {loginResult} />
             }
 
-            <Grid
-                container
-                spacing={0}
-                direction="column"
-                alignItems="center"
-                style={{ minHeight: '100vh' }}
-            >
+            <Paper className = "MyPaper">
 
-                <Grid item xs={4}>
-                    <Typography variant="h4" component="h4">
-                        Login
-                    </Typography>
+                <Typography variant="h4">
+                    Login
+                </Typography>
+
+                <br />
+
+                <form onSubmit = {handleFormSubmit} >
+                    <TextField
+                        required
+                        fullWidth
+                        name = "user"
+                        variant = "outlined"
+                        label = "Username" 
+                    />
 
                     <br />
+                    <br />
 
-                    <form onSubmit = {handleFormSubmit} >
+                    <TextField
+                        fullWidth
+                        required
+                        name = "pass"
+                        type = "password"
+                        variant = "outlined"
+                        label = "Password" 
+                    />
 
-                        <fieldset>
+                    <br />
+                    <br />
 
-                            <TextField
-                                required
-                                fullWidth
-                                name = "user"
-                                variant = "outlined"
-                                label = "Username" 
-                            />
+                    <Button fullWidth variant = "outlined" color = "primary" type = "submit">
+                        Submit
+                    </Button>
+                </form>
 
-                            <br />
-                            <br />
-
-                            <TextField
-                                fullWidth
-                                required
-                                name = "pass"
-                                type = "password"
-                                variant = "outlined"
-                                label = "Password" 
-                            />
-
-                        </fieldset>
-
-                        <br />
-                        <br />
-
-                        <Button fullWidth variant = "outlined" color = "primary" type = "submit">
-                            Submit
-                        </Button>
-                        
-                    </form>
-                </Grid>   
-                
-            </Grid> 
-        </div>
+            </Paper>
+        </Container>
     )
 }
