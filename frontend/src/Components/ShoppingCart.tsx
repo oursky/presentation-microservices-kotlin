@@ -34,16 +34,14 @@ export default function ShoppingCart(){
     useEffect(() => {
         APIService.Products.list()
         .then(result => setItems(result))
-        .catch(err => {
-            setError(err)
-            setIsLoaded(true)
-        })
+        .catch(err => setError(err))
 
         const storageCart = localStorage.getItem("cart")
         if(storageCart !== null && storageCart !== ""){
             setCart(JSON.parse(storageCart))
-            setIsLoaded(true)
         }
+
+        setIsLoaded(true)
     }, [updated])
 
     function deleteProductFromCart(id: number) {
@@ -98,6 +96,7 @@ export default function ShoppingCart(){
                             const tmp = items.find((item: Product) => item.id === val);
                         
                             if(typeof tmp === 'undefined'){
+                                console.log("not found item: ", val)
                                 return ""
                             }
 
