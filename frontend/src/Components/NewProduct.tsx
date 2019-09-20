@@ -1,8 +1,19 @@
 import React from "react";
 import {useState} from "react";
 import APIService from "../APIService"
-import { TextField, InputAdornment, Button, Typography, Grid } from '@material-ui/core';
+import { 
+    TextField, 
+    InputAdornment, 
+    Button, 
+    Typography, 
+    CssBaseline,
+    Container,
+    Paper,
+    Avatar
+} from '@material-ui/core';
+import UploadIcon from '@material-ui/icons/CloudUploadOutlined'
 import PopupBox from "./PopupBox";
+import "./NewProduct.css"
 
 export default function NewProduct(){
 
@@ -23,76 +34,69 @@ export default function NewProduct(){
     }
 
     return (
-        <div>
+        <Container maxWidth = "xs" component = "main">
+
+            <CssBaseline />
 
             {
                 submitResult === "" ? "" : <PopupBox title = "Submit Result" message = {submitResult}/>
             }
 
-            <Grid
-                container
-                spacing={0}
-                direction="column"
-                alignItems="center"
-                style={{ minHeight: '100vh' }}
-            >
+                <Paper className = "MyPaper">
 
-                <Grid item xs={4}>
-
-                    <Typography variant="h4" component="h4">
+                    <Typography variant="h4">
                         Add New Product
                     </Typography>
 
+                    <br />
+
                     <form id = "addProductForm" onSubmit = {handleFormSubmit} >
-                        <fieldset>
+                        
+                        <TextField
+                            required
+                            fullWidth
+                            id = "productName"
+                            name = "name"
+                            variant = "outlined"
+                            label = "Product Name" 
+                        />
 
-                            <TextField
-                                required
-                                fullWidth
-                                id = "productName"
-                                name = "name"
-                                variant = "outlined"
-                                label = "Product Name" 
-                            />
+                        <br />
+                        <br />
 
-                            <br />
-                            <br />
+                        <TextField
+                            fullWidth
+                            id = "productDescription"
+                            name = "description"
+                            variant = "outlined"
+                            label = "Product Description" 
+                        />
 
-                            <TextField
-                                fullWidth
-                                id = "productDescription"
-                                name = "description"
-                                variant = "outlined"
-                                label = "Product Description" 
-                            />
+                        <br />
+                        <br />
 
-                            <br />
-                            <br />
+                        <TextField
+                            required
+                            fullWidth
+                            id = "productPrice"
+                            name = "price"
+                            label = "Product Price" 
+                            variant = "outlined"
+                            type = "number"
+                            InputProps={{
+                                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                            }}
+                        />
 
-                            <TextField
-                                required
-                                fullWidth
-                                id = "productPrice"
-                                name = "price"
-                                label = "Product Price" 
-                                variant = "outlined"
-                                type = "number"
-                                InputProps={{
-                                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                                }}
-                            />
-
-                            <br />
-                            <br />
-
-                            <input
-                                type = "file"
-                                name = "files"
-                                id = "raised-button-file"
-                                accept = "image/*"
-                            />
-
-                        </fieldset>
+                        <br />
+                        <br />
+                        
+                        <input
+                            type = "file"
+                            name = "files"
+                            id = "raised-button-file"
+                            accept = "image/*"
+                        />
 
                         <br />
                         <br />
@@ -103,11 +107,9 @@ export default function NewProduct(){
                         
                     </form>
 
-                </Grid>  
-
-            </Grid> 
+                </Paper>  
             
-        </div>
+        </Container>
     )
 
 }
