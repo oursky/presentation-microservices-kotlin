@@ -19,7 +19,11 @@ class ProductService {
     lateinit var repository: ProductRepository
 
     val minioClient: MinioClient by lazy {
-        MinioClient(minioClientEndPoint, System.getenv("MINIO_ACCESS_KEY"), System.getenv("MINIO_SECRET_KEY"))
+        MinioClient(
+                minioClientEndPoint,
+                System.getenv("MINIO_ACCESS_KEY"),
+                System.getenv("MINIO_SECRET_KEY")
+        )
     }
 
     constructor() {
