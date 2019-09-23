@@ -1,16 +1,17 @@
 package com.oursky.presentation.microservices.kotlin.auth.controller
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestHeader
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import com.oursky.presentation.microservices.kotlin.auth.service.AuthService
 import com.oursky.presentation.microservices.kotlin.auth.service.JwtService
+import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestHeader
 
 @RestController
 @RequestMapping("/auth")
@@ -29,6 +30,7 @@ public class AuthController {
         val accessToken: String
     )
     // curl -X POST http://127.0.0.1:8080/auth/signup -H "Content-Type: application/json" -d '{"user": "test", "pass": "1234"}'
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @PostMapping("/signup")
     fun login(
         @RequestBody body: SignupRequest
@@ -49,7 +51,9 @@ public class AuthController {
         val userId: Long,
         val accessToken: String
     )
+
     // curl -X POST http://127.0.0.1:8080/auth/login -H "Content-Type: application/json" -d '{"user": "test", "pass": "1234"}'
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @PostMapping("/login")
     fun login(
         @RequestBody body: LoginRequest
@@ -63,6 +67,7 @@ public class AuthController {
     }
 
     // curl -X GET http://127.0.0.1:8080/auth/logout
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @GetMapping("/logout")
     fun logout(): ResponseEntity<Void> {
         return ResponseEntity.ok().build()
@@ -72,6 +77,7 @@ public class AuthController {
         val userId: Long
     )
     // curl -X GET http://127.0.0.1:8080/auth/verify -H "Authorization: Bearer ACCESS_TOKEN"
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @GetMapping("/verify")
     fun verify(
         @RequestHeader("authorization") authorization: String

@@ -1,17 +1,18 @@
 package com.oursky.presentation.microservices.kotlin.product.controller
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import com.oursky.presentation.microservices.kotlin.product.service.ProductService
 import com.oursky.presentation.microservices.kotlin.product.entity.Product
+import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.MultipartHttpServletRequest
 
@@ -37,6 +38,7 @@ public class ProductController {
         val success: Boolean
     )
 
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @PostMapping("/")
     fun add(
         request: MultipartHttpServletRequest,
@@ -52,6 +54,7 @@ public class ProductController {
         ))
     }
 
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @GetMapping("/")
     fun getAllProduct(): ResponseEntity<AllProductResponse> {
         val data = productService.getAll()
@@ -60,6 +63,7 @@ public class ProductController {
         ))
     }
 
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @DeleteMapping("/{id}")
     fun deleteProduct(
         @PathVariable id: Long
