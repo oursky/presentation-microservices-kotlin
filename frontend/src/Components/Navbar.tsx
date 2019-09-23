@@ -16,6 +16,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu'
 import {  withStyles } from '@material-ui/core/styles';
 import "../Styles/Navbar.css";
+import Cookies from "../Cookies"
 
 const StyledMenu = withStyles({
     paper: {
@@ -100,16 +101,35 @@ export default function Navbar(){
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <StyledMenuItem onClick={handleClose}>
-                    <Link to = "/login" style = {{ textDecoration: 'none', color: "black" }}>
-                        Login
-                     </Link>
-                </StyledMenuItem>
-                <StyledMenuItem onClick={handleClose}>
-                    <Link to = "/register" style = {{ textDecoration: 'none', color: "black" }}>
-                        Register
-                     </Link>
-                </StyledMenuItem>
+                {
+                    Cookies.getCookie("accessToken") ? (
+                        <div>
+                            <StyledMenuItem onClick={handleClose}>
+                                <Link to = "/profile" style = {{ textDecoration: 'none', color: "black" }}>
+                                    Profile
+                                </Link>
+                            </StyledMenuItem>
+                            <StyledMenuItem onClick={handleClose}>
+                                <Link to = "/logout" style = {{ textDecoration: 'none', color: "black" }}>
+                                    Logout
+                                </Link>
+                            </StyledMenuItem>
+                        </div>
+                    ) : (
+                        <div>
+                            <StyledMenuItem onClick={handleClose}>
+                                <Link to = "/login" style = {{ textDecoration: 'none', color: "black" }}>
+                                    Login
+                                </Link>
+                            </StyledMenuItem>
+                            <StyledMenuItem onClick={handleClose}>
+                                <Link to = "/register" style = {{ textDecoration: 'none', color: "black" }}>
+                                    Register
+                                </Link>
+                            </StyledMenuItem>
+                        </div>
+                    )
+                }
             </StyledMenu>
         </div>
     )
