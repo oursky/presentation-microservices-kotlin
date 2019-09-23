@@ -37,6 +37,7 @@ public class ProductController {
         val success: Boolean
     )
 
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @PostMapping("/")
     fun add(
         request: MultipartHttpServletRequest,
@@ -52,6 +53,7 @@ public class ProductController {
         ))
     }
 
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @GetMapping("/")
     fun getAllProduct(): ResponseEntity<AllProductResponse> {
         val data = productService.getAll()
@@ -60,6 +62,7 @@ public class ProductController {
         ))
     }
 
+    @CrossOrigin(origins = ["http://localhost:3000"])
     @DeleteMapping("/{id}")
     fun deleteProduct(
         @PathVariable id: Long
