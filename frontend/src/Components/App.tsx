@@ -25,6 +25,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForeverOutlined';
 import "../Styles/App.css"
 import APIService from '../APIService'
 import PopupBoxProps from "../Interfaces/PopupBoxProps";
+import Cookies from "../Cookies"
 
 export default function App(){
 
@@ -74,7 +75,8 @@ export default function App(){
 			title: "Successful",
 			message: `Added ${target[0].name} to shopping cart.`,
 			open: true,
-			onCloseClick: closePopup
+			onCloseClick: closePopup,
+			redirectTo: undefined
 		})
 	}
 
@@ -83,13 +85,35 @@ export default function App(){
 			return
 		}
 		try{
-			const result = await APIService.Products.delete(id);
+			const token = Cookies.getCookie("accessToken");
+			if(token === null){
+				setPopupProps({
+					title: "Incorrect access token",
+					message: "Please login first.",
+					open: true,
+					onCloseClick: closePopup,
+					redirectTo: "/login"
+				})
+				return;
+			}
+			const result = await APIService.Products.delete(id, token);
+			if(result.error !== null){
+				setPopupProps({
+					title: "Delete Product Result",
+					message: result.error,
+					open: true,
+					onCloseClick: closePopup,
+					redirectTo: undefined
+				})
+				return
+			}
 			updateStateItems()
 			setPopupProps({
 				title: "Delete Product Result",
 				message: result ? "Product Deleted." : "Failed to delete product.",
 				open: true,
-				onCloseClick: closePopup
+				onCloseClick: closePopup,
+				redirectTo: undefined
 			})
 
 		}catch(e){
@@ -98,7 +122,8 @@ export default function App(){
 				title: "[Error] Delete Product",
 				message: e,
 				open: true,
-				onCloseClick: closePopup
+				onCloseClick: closePopup,
+				redirectTo: undefined
 			})
 		}
 	}
@@ -116,6 +141,7 @@ export default function App(){
 						message = {popupProps.message} 
 						open = {popupProps.open} 
 						onCloseClick = {popupProps.onCloseClick}
+						redirectTo = {popupProps.redirectTo}
 					/>
 				}
 

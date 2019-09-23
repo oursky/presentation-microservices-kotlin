@@ -12,10 +12,13 @@ import {
 } from '@material-ui/core';
 import PopupBox from "./PopupBox";
 import "../Styles/NewProduct.css"
+import Cookies from "../Cookies"
 
 export default function NewProduct(){
 
     const [submitResult, setSubmitResult] = useState("")
+    const [redirectTo, setRedirectTo] = useState<string | undefined>()
+
 
     function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -27,21 +30,39 @@ export default function NewProduct(){
 
         if(typeof formPrice !== "string"){
             setSubmitResult(`Incorrect product price!`)
+            setRedirectTo(undefined)
             return
         }
 
         const price = parseFloat(formPrice)
         if(isNaN(price)){
             setSubmitResult(`Product Price is not a number !`)
+            setRedirectTo(undefined)
             return
         }
 
-        APIService.Products.add(new FormData(form))
-        .then( productId => {
-            setSubmitResult(`New Prodcut Added !\nProduct ID: ${productId}`)
+        const token = Cookies.getCookie("accessToken");
+        if(token === null){
+            setSubmitResult("Please login first.")
+            setRedirectTo("/login")
+            return;
+        }
+
+        APIService.Products.add(new FormData(form), token)
+        .then( result => {
+
+            if (result.error){
+                setSubmitResult(result.error)
+                setRedirectTo(undefined)
+                return
+            }
+            
+            setSubmitResult(`New Prodcut Added !\nProduct ID: ${result.productId}`)
+            setRedirectTo("/")
         })
         .catch(err => {
             setSubmitResult(`Error: ${err}`)
+            setRedirectTo(undefined)
         })
     }
 
@@ -51,7 +72,7 @@ export default function NewProduct(){
             <CssBaseline />
 
             {
-                submitResult && <PopupBox title = "Submit Result" message = {submitResult} open = {!!submitResult} onCloseClick = {() => setSubmitResult("")}/>
+                submitResult && <PopupBox redirectTo = {redirectTo} title = "Submit Result" message = {submitResult} open = {!!submitResult} onCloseClick = {() => setSubmitResult("")}/>
             }
 
                 <Paper className = "MyPaper">

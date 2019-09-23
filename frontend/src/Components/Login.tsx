@@ -11,11 +11,12 @@ import {
 } from '@material-ui/core';
 import PopupBox from "./PopupBox";
 import "../Styles/Login.css"
+import Cookies from "../Cookies"
 
 export default function Login() {
 
-    const [loginResult, setLoginResult] = useState("")
-
+    const [loginResult, setLoginResult] = useState<string>("")
+    const [redirect, setRedirect] = useState<boolean>(false)
 
     function handleFormSubmit (event: React.FormEvent<HTMLFormElement>){
         event.preventDefault();
@@ -24,22 +25,38 @@ export default function Login() {
 
         APIService.User.login(new FormData(form))
         .then(result => {
-            console.log(result);
-            setLoginResult("Login Successfully")
+            if(result.error){
+                setLoginResult(result.error)
+                setRedirect(false)
+            }else{
+                setLoginResult("Login Successfully");
+                const date = new Date();
+                date.setTime(date.getTime() + (1000 * 60 * 10));
+                Cookies.setCookie("accessToken", result.accessToken, date);
+                localStorage.setItem("userId", result.userId)
+                setRedirect(true)
+            }
         })
         .catch(e => {
             console.error("Erorrrr: ", e)
-            setLoginResult("Error while logging in...")
+            setLoginResult(`An Error occured: ${e}`)
+            setRedirect(false)
         })
     }
 
-    return (
+    return redirect ? (
+            <div>
+                {
+                    loginResult !== "" && <PopupBox redirectTo = "/" title = "Login Result" message = {loginResult} open = {!!loginResult} onCloseClick = {() => setLoginResult("")} />
+                }
+            </div>
+        ):(
         <Container maxWidth = "xs" component = "main">
 
             <CssBaseline />
 
             {
-                loginResult !== "" && <PopupBox title = "Login Result" message = {loginResult} open = {!!loginResult} onCloseClick = {() => setLoginResult("")} />
+                loginResult !== "" && <PopupBox redirectTo = {undefined} title = "Login Result" message = {loginResult} open = {!!loginResult} onCloseClick = {() => setLoginResult("")} />
             }
 
             <Paper className = "MyPaper">

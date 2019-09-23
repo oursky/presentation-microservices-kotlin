@@ -11,10 +11,12 @@ import {
 } from '@material-ui/core';
 import PopupBox from "./PopupBox";
 import "../Styles/Register.css"
+import Cookies from "../Cookies"
 
 export default function Register(){
 
     const [submitResult, setSubmitResult] = useState("")
+    const [success, setSuccess] = useState<boolean>(false)
 
     function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -29,11 +31,21 @@ export default function Register(){
 
         APIService.User.register(formData)
         .then(result => {
-            console.log(result);
-            setSubmitResult("Successfully Registered.")
+            if(result.error){
+                setSubmitResult(result.error)
+                setSuccess(false)
+            }else{
+                setSubmitResult("Successfully Registered.")
+                const date = new Date();
+                date.setTime(date.getTime() + (1000 * 60 * 10));
+                Cookies.setCookie("accessToken", result.accessToken, date);
+                localStorage.setItem("userId", result.userId)
+                setSuccess(true)
+            }
         })
         .catch(e => {
             setSubmitResult(`Error: ${e}`)
+            setSuccess(false)
         })
     }
 
@@ -43,7 +55,7 @@ export default function Register(){
             <CssBaseline />
 
             {
-                submitResult && <PopupBox title = "Registeration Result" message = {submitResult} open = {!!submitResult} onCloseClick = {() => setSubmitResult("")}/>
+                submitResult && <PopupBox redirectTo = {success ? "/" : undefined} title = "Registeration Result" message = {submitResult} open = {!!submitResult} onCloseClick = {() => setSubmitResult("")}/>
             }
 
             <Paper className = "MyPaper">

@@ -2,12 +2,14 @@ import React from "react";
 import PopupBoxProps from "../Interfaces/PopupBoxProps"
 import { Button, Typography, Modal, Divider } from '@material-ui/core';
 import "../Styles/PopupBox.css"
+import { Link } from "react-router-dom";
 
 export default function PopupBox({
     title,
     message,
     open,
-    onCloseClick
+    onCloseClick,
+    redirectTo
 }: PopupBoxProps) {
     return (
 
@@ -40,9 +42,17 @@ export default function PopupBox({
                 
                 {
                     onCloseClick && (
-                        <Button fullWidth variant = "outlined" onClick = {onCloseClick} >
-                            Close
-                        </Button>
+                        redirectTo !== undefined ? (
+                            <Link to = {redirectTo}>
+                                <Button fullWidth variant = "outlined" onClick = {onCloseClick} >
+                                    Close
+                                </Button>
+                            </Link>
+                        ) : (
+                            <Button fullWidth variant = "outlined" onClick = {onCloseClick} >
+                                Close
+                            </Button>
+                        )    
                     )
                 }
 
