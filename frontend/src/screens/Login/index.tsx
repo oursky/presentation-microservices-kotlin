@@ -17,12 +17,14 @@ import { TIME, getTimeAfter } from "../../Utils";
 import "./Login.scss";
 
 export default function Login() {
-  const [loginResult, setLoginResult] = useState<string>("");
+  const [loginResult, setLoginResult] = useState<string | undefined>();
   const [loginData, setLoginData] = useState<LoginData>({
     user: "",
     pass: "",
   });
   const [redirect, setRedirect] = useState<boolean>(false);
+
+  const setLoginResultNull = () => setLoginResult(undefined);
 
   const handleChange = (name: keyof LoginData) => (
     event: React.ChangeEvent<HTMLInputElement>
@@ -55,31 +57,17 @@ export default function Login() {
       });
   }
 
-  return redirect ? (
-    <>
-      {loginResult !== "" && (
-        <AlertDialog
-          redirectTo="/"
-          title="Login Result"
-          message={loginResult}
-          open={!!loginResult}
-          onCloseClick={() => setLoginResult("")}
-        />
-      )}
-    </>
-  ) : (
+  return (
     <Container maxWidth="xs" component="main">
       <CssBaseline />
 
-      {loginResult !== "" && (
-        <AlertDialog
-          redirectTo={undefined}
-          title="Login Result"
-          message={loginResult}
-          open={!!loginResult}
-          onCloseClick={() => setLoginResult("")}
-        />
-      )}
+      <AlertDialog
+        redirectTo={redirect ? "/" : undefined}
+        title="Login Result"
+        message={loginResult}
+        open={!!loginResult}
+        onCloseClick={setLoginResultNull}
+      />
 
       <Paper className="MyPaper">
         <Typography variant="h4">Login</Typography>
