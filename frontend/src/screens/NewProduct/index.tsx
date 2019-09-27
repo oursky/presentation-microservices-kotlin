@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useCallback } from "react";
 import APIService from "../../APIService";
 import {
   TextField,
@@ -26,7 +26,7 @@ export default function NewProduct() {
     files: "",
   });
 
-  const setSubmitResultEmpty = () => setSubmitResult("");
+  const setSubmitResultEmpty = useCallback(() => setSubmitResult(""), []);
 
   const handleChange = (name: keyof NewProductData) => (
     event: React.ChangeEvent<HTMLInputElement>

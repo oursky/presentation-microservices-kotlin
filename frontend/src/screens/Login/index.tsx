@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useCallback } from "react";
 import APIService from "../../APIService";
 import {
   TextField,
@@ -24,7 +24,7 @@ export default function Login() {
   });
   const [redirect, setRedirect] = useState<boolean>(false);
 
-  const setLoginResultNull = () => setLoginResult(undefined);
+  const setLoginResultNull = useCallback(() => setLoginResult(undefined), []);
 
   const handleChange = (name: keyof LoginData) => (
     event: React.ChangeEvent<HTMLInputElement>
