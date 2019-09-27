@@ -81,7 +81,7 @@ export default function App() {
   }, [updateStateItems, updateStorageCart]);
 
   const addProductToCart = useCallback(
-    (product: Product) => {
+    (product: Product) => () => {
       cart[product.id.toString()] = product;
       setCart(cart);
       localStorage.setItem("cart", JSON.stringify(cart));
@@ -153,7 +153,7 @@ export default function App() {
   );
 
   const deleteProduct = useCallback(
-    (id: number) => {
+    (id: number) => () => {
       setConfirmProps({
         title: "Confirmation",
         message: "Are you sure you want to DELETE this product ?",
@@ -233,14 +233,14 @@ export default function App() {
                   <Button
                     size="small"
                     color="primary"
-                    onClick={() => addProductToCart(item)}
+                    onClick={addProductToCart(item)}
                   >
                     <AddShoppingCartIcon />
                   </Button>
                   <Button
                     size="small"
                     color="secondary"
-                    onClick={() => deleteProduct(item.id)}
+                    onClick={deleteProduct(item.id)}
                   >
                     <DeleteForeverIcon /> Delete Product
                   </Button>
