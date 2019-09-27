@@ -2,9 +2,9 @@
   "compilerOptions": {
     "target": "es5",
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "DOM",
+      "ES5",
+      "ES2015.Promise"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -18,7 +18,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": [
     "src"

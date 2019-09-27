@@ -3,31 +3,31 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.4.0",
-    "@material-ui/icons": "^4.2.1",
-    "@types/jest": "24.0.18",
-    "@types/node": "12.7.3",
-    "@types/react-dom": "16.9.0",
+    "@material-ui/core": "4.4.0",
+    "@material-ui/icons": "4.2.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.1.1",
+    "react-scripts": "3.1.2",
     "typescript": "3.6.2"
   },
   "scripts": {
     "start": "react-scripts start --downlevelIteration",
     "build": "react-scripts build --downlevelIteration",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "eject": "react-scripts eject",
+    "stylelint": "stylelint --max-warnings 0 'src/**/*.{css,scss}'",
+    "format": "prettier --write --list-different 'src/**/*.{js,jsx,ts,tsx,css,scss}'",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "Android >= 4.4",
+      "iOS >= 9",
+      "Safari >= 9",
+      "IE >= 11"
     ],
     "development": [
       "last 1 chrome version",
@@ -36,8 +36,18 @@
     ]
   },
   "devDependencies": {
+    "@types/jest": "24.0.18",
+    "@types/node": "12.7.3",
+    "@types/react-dom": "16.9.0",
+    "@oursky/eslint-config": "1.2.0",
     "@types/react": "^16.9.2",
     "@types/react-router": "^5.0.3",
-    "@types/react-router-dom": "^4.3.5"
+    "@types/react-router-dom": "^4.3.5",
+    "eslint": "6.4.0",
+    "node-sass": "4.12.0",
+    "prettier": "1.18.2",
+    "stylelint": "11.0.0",
+    "stylelint-config-recommended": "3.0.0",
+    "stylelint-no-unsupported-browser-features": "3.0.2"
   }
 }

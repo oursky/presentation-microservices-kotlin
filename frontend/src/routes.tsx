@@ -1,23 +1,23 @@
-import React from 'react';
+import React from "react";
 import { Route, Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import App from './Components/App';
-import Navbar from './Components/Navbar';
-import NewProductPage from './Components/NewProduct';
-import ShoppingCart from './Components/ShoppingCart';
-import Login from './Components/Login';
-import Register from './Components/Register';
+import App from "./screens/Home";
+import Navbar from "./components/Navbar";
+import NewProductPage from "./screens/NewProduct";
+import ShoppingCart from "./screens/ShoppingCart";
+import Login from "./screens/Login";
+import Register from "./screens/Register";
 
 const history = createBrowserHistory();
 
 export default (
-    <Router history = {history}>
-        <Navbar/>
-        <br />
-        <Route path = "/" exact component = {App} />
-        <Route path = "/new" exact component = {NewProductPage} />
-        <Route path = "/cart" exact component = {ShoppingCart} />
-        <Route path = "/login" exact component = {Login} />
-        <Route path = "/register" exact component = {Register} />
-    </Router>
+  <Router history={history}>
+    <Navbar />
+    <br />
+    <Route path="/" exact={true} component={App} />
+    <Route path="/new" exact={true} component={NewProductPage} />
+    <Route path="/cart" exact={true} component={ShoppingCart} />
+    <Route path="/login" exact={true} component={Login} />
+    <Route path="/register" exact={true} component={Register} />
+  </Router>
 );
