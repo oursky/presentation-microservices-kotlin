@@ -17,7 +17,7 @@ import Cookies from "../../Cookies";
 import "./NewProduct.scss";
 
 export default function NewProduct() {
-  const [submitResult, setSubmitResult] = useState("");
+  const [submitResult, setSubmitResult] = useState<string>("");
   const [redirectTo, setRedirectTo] = useState<string | undefined>();
   const [newProductData, setNewProductData] = useState<NewProductData>({
     name: "",
@@ -25,6 +25,8 @@ export default function NewProduct() {
     price: 0,
     files: "",
   });
+
+  const setSubmitResultEmpty = () => setSubmitResult("");
 
   const handleChange = (name: keyof NewProductData) => (
     event: React.ChangeEvent<HTMLInputElement>
@@ -79,15 +81,13 @@ export default function NewProduct() {
     <Container maxWidth="xs">
       <CssBaseline />
 
-      {submitResult && (
-        <AlertDialog
-          redirectTo={redirectTo}
-          title="Submit Result"
-          message={submitResult}
-          open={!!submitResult}
-          onCloseClick={() => setSubmitResult("")}
-        />
-      )}
+      <AlertDialog
+        redirectTo={redirectTo}
+        title="Submit Result"
+        message={submitResult}
+        open={!!submitResult}
+        onCloseClick={setSubmitResultEmpty}
+      />
 
       <Paper className="MyPaper">
         <Typography variant="h4">Add New Product</Typography>
