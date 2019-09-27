@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import APIService from "../../APIService";
 import {
   TextField,
@@ -16,7 +16,7 @@ import RegisterData from "../../interfaces/RegisterData";
 import { RegisterResult } from "../../interfaces/APIResponses";
 
 export default function Register() {
-  const [submitResult, setSubmitResult] = useState("");
+  const [submitResult, setSubmitResult] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
   const [registerData, setRegisterData] = useState<RegisterData>({
     user: "",
@@ -29,6 +29,8 @@ export default function Register() {
   ) => {
     setRegisterData({ ...registerData, [name]: event.target.value });
   };
+
+  const setSubmitResultEmpty = useCallback(() => setSubmitResult(""), []);
 
   function submitForm(): void {
     if (registerData.confpass !== registerData.pass) {
@@ -62,15 +64,13 @@ export default function Register() {
     <Container maxWidth="xs" component="main">
       <CssBaseline />
 
-      {submitResult && (
-        <AlertDialog
-          redirectTo={success ? "/" : undefined}
-          title="Registeration Result"
-          message={submitResult}
-          open={!!submitResult}
-          onCloseClick={() => setSubmitResult("")}
-        />
-      )}
+      <AlertDialog
+        redirectTo={success ? "/" : undefined}
+        title="Registeration Result"
+        message={submitResult}
+        open={!!submitResult}
+        onCloseClick={setSubmitResultEmpty}
+      />
 
       <Paper className="MyPaper">
         <Typography variant="h4">Register</Typography>
