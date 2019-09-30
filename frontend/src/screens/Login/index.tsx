@@ -1,5 +1,6 @@
 import React, { useState, FormEvent, useCallback } from "react";
 import APIService from "../../APIService";
+import { Link } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -96,6 +97,11 @@ export default function Login() {
             label="Password"
             onChange={handleChange("pass")}
           />
+
+          <br />
+          <br />
+
+          <Link to="/forgot">Forgot Password</Link>
 
           <br />
           <br />
