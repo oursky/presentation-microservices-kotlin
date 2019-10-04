@@ -1,13 +1,11 @@
 import LoginData from "../interfaces/LoginData";
 import RegisterData from "../interfaces/RegisterData";
-// import NewProductData from "../interfaces/NewProductData";
 import { LoginResult, RegisterResult } from "../interfaces/APIResponses";
 const API_ENDPOINT = "http://localhost:8080";
 const API_PATH = {
   AUTH: "/auth",
   PRODUCT: "/product/",
 };
-
 const HEADER = {
   Accept: "application/json",
   "Content-Type": "application/json",
@@ -19,8 +17,10 @@ const AUTH_HEADER = (token: String) => {
   };
 };
 
+const AUTH_PATH = (isMerchant: boolean) => (isMerchant ? "/merchant" : "/user");
+
 const APIService = {
-  User: {
+  Auth: {
     login: (data: LoginData): Promise<LoginResult> =>
       fetch(`${API_ENDPOINT}${API_PATH.AUTH}/login`, {
         method: "POST",
@@ -28,8 +28,11 @@ const APIService = {
         headers: HEADER,
       }).then(res => res.json()),
 
-    register: (data: RegisterData): Promise<RegisterResult> =>
-      fetch(`${API_ENDPOINT}${API_PATH.AUTH}/signup`, {
+    register: (
+      data: RegisterData,
+      isMerchant: boolean
+    ): Promise<RegisterResult> =>
+      fetch(`${API_ENDPOINT}${API_PATH.AUTH}${AUTH_PATH(isMerchant)}/signup`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: HEADER,

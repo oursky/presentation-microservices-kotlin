@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { FormEvent, useState, useCallback } from "react";
 import APIService from "../../APIService";
 import {
   TextField,
@@ -19,10 +19,11 @@ export default function Register() {
   const [submitResult, setSubmitResult] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
   const [registerData, setRegisterData] = useState<RegisterData>({
-    user: "",
+    email: "",
     pass: "",
     confpass: "",
   });
+  const [isMerchant, setIsMerchant] = useState<boolean>(false);
 
   const handleChange = (name: keyof RegisterData) => (
     event: React.ChangeEvent<HTMLInputElement>
@@ -31,14 +32,18 @@ export default function Register() {
   };
 
   const setSubmitResultEmpty = useCallback(() => setSubmitResult(""), []);
+  const updateIsMerchant = useCallback(() => setIsMerchant(!isMerchant), [
+    isMerchant,
+  ]);
 
-  function submitForm(): void {
+  function submitForm(e: FormEvent<HTMLFormElement>): void {
+    e.preventDefault();
     if (registerData.confpass !== registerData.pass) {
       setSubmitResult("Passwords are not the same !");
       return;
     }
 
-    APIService.User.register(registerData)
+    APIService.Auth.register(registerData, isMerchant)
       .then((result: RegisterResult) => {
         if (result.error) {
           setSubmitResult(result.error);
@@ -73,18 +78,21 @@ export default function Register() {
       />
 
       <Paper className="MyPaper">
-        <Typography variant="h4">Register</Typography>
+        <Typography variant="h4">
+          {isMerchant ? "Merchant" : "Customer"} Register
+        </Typography>
 
         <br />
 
-        <form>
+        <form onSubmit={submitForm}>
           <TextField
             required={true}
             fullWidth={true}
-            name="user"
+            type="email"
+            name="email"
             variant="outlined"
-            label="Username"
-            onChange={handleChange("user")}
+            label="Email"
+            onChange={handleChange("email")}
           />
 
           <br />
@@ -121,9 +129,14 @@ export default function Register() {
             variant="outlined"
             color="primary"
             type="submit"
-            onClick={submitForm}
           >
             Submit
+          </Button>
+          <br />
+          <Button color="primary" onClick={updateIsMerchant}>
+            <Typography variant="caption">
+              Register as {isMerchant ? "Customer" : "Merchant"} ?
+            </Typography>
           </Button>
         </form>
       </Paper>

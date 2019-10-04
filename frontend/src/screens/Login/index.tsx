@@ -23,9 +23,13 @@ export default function Login() {
     user: "",
     pass: "",
   });
+  const [isMerchant, setIsMerchant] = useState<boolean>(false);
   const [redirect, setRedirect] = useState<boolean>(false);
 
   const setLoginResultNull = useCallback(() => setLoginResult(undefined), []);
+  const updateIsMerchant = useCallback(() => setIsMerchant(!isMerchant), [
+    isMerchant,
+  ]);
 
   const handleChange = (name: keyof LoginData) => (
     event: React.ChangeEvent<HTMLInputElement>
@@ -35,7 +39,7 @@ export default function Login() {
 
   function submitForm(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    APIService.User.login(loginData)
+    APIService.Auth.login(loginData)
       .then((result: LoginResult) => {
         if (result.error) {
           setLoginResult(result.error);
@@ -70,8 +74,10 @@ export default function Login() {
         onCloseClick={setLoginResultNull}
       />
 
-      <Paper className="MyPaper">
-        <Typography variant="h4">Login</Typography>
+      <Paper className="mypaper">
+        <Typography variant="h4">
+          {isMerchant ? "Merchant" : "Customer"} Login
+        </Typography>
 
         <br />
 
@@ -101,11 +107,6 @@ export default function Login() {
           <br />
           <br />
 
-          <Link to="/forgot">Forgot Password</Link>
-
-          <br />
-          <br />
-
           <Button
             fullWidth={true}
             variant="outlined"
@@ -113,6 +114,17 @@ export default function Login() {
             type="submit"
           >
             Submit
+          </Button>
+          <br />
+          <Button color="primary">
+            <Link to="/forgot" className="mylink">
+              <Typography variant="caption">Forgot Password</Typography>
+            </Link>
+          </Button>
+          <Button color="primary" onClick={updateIsMerchant}>
+            <Typography variant="caption">
+              Login as {isMerchant ? "Customer" : "Merchant"} ?
+            </Typography>
           </Button>
         </form>
       </Paper>

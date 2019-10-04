@@ -1,5 +1,5 @@
 export default interface RegisterData {
-  user: String;
+  email: String;
   pass: String;
   confpass: String;
 }
