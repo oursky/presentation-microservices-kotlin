@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import {
   AppBar,
@@ -7,6 +7,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Button,
 } from "@material-ui/core";
 import { MenuProps } from "@material-ui/core/Menu";
 import { Link } from "react-router-dom";
@@ -57,6 +58,8 @@ export default function Navbar() {
   function handleClose() {
     setAnchorEl(null);
   }
+
+  const doLogout = useCallback(() => Cookies.deleteCookie("accessToken"), []);
 
   return (
     <div>
@@ -122,12 +125,12 @@ export default function Navbar() {
               </Link>
             </StyledMenuItem>
             <StyledMenuItem onClick={handleClose}>
-              <Link
-                to="/logout"
+              <Button
+                onClick={doLogout}
                 style={{ textDecoration: "none", color: "black" }}
               >
                 Logout
-              </Link>
+              </Button>
             </StyledMenuItem>
           </div>
         ) : (
