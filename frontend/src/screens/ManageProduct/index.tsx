@@ -40,7 +40,7 @@ export default function ManageProduct() {
     onClose: undefined,
     message: "",
   });
-
+  const userid = parseInt(localStorage.getItem("userId") || "-1", 10);
   const closePopup = useCallback(() => {
     setAlertProps(undefined);
   }, []);
@@ -64,9 +64,22 @@ export default function ManageProduct() {
       });
   }, [closePopup]);
 
+  const checkIsMerchant = useCallback(() => {
+    if (Cookies.getCookie("isMerchant") !== "true") {
+      setAlertProps({
+        title: "Unauthorized",
+        message: "Only Merchant can access this page.",
+        open: true,
+        onCloseClick: closePopup,
+        redirectTo: "/",
+      });
+    }
+  }, [closePopup]);
+
   useEffect(() => {
+    checkIsMerchant();
     updateStateItems();
-  }, [updateStateItems]);
+  }, [updateStateItems, checkIsMerchant]);
 
   const closeConfirmDialog = useCallback(() => {
     setConfirmProps(undefined);
@@ -170,48 +183,55 @@ export default function ManageProduct() {
           justify="space-evenly"
           alignItems="center"
         >
-          {items.map((item: Product) => (
-            <Grid item={true} key={item.id}>
-              <Card className="myCard">
-                <CardActionArea>
-                  {item.image && (
-                    <CardMedia
-                      image={"http://localhost:9000/images/" + item.image}
-                      style={{ height: 140 }}
-                    />
-                  )}
-                  <CardContent>
-                    <Typography gutterBottom={true} variant="h5" component="h2">
-                      {item.name}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      {item.description}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      ${item.price}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button
-                    size="small"
-                    color="secondary"
-                    onClick={deleteProduct(item.id)}
-                  >
-                    <DeleteForeverIcon /> Delete Product
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
+          {items.map(
+            (item: Product) =>
+              userid === item.ownerID && (
+                <Grid item={true} key={item.id}>
+                  <Card className="myCard">
+                    <CardActionArea>
+                      {item.image && (
+                        <CardMedia
+                          image={"http://localhost:9000/images/" + item.image}
+                          style={{ height: 140 }}
+                        />
+                      )}
+                      <CardContent>
+                        <Typography
+                          gutterBottom={true}
+                          variant="h5"
+                          component="h2"
+                        >
+                          {item.name}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          {item.description}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          ${item.price}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                      <Button
+                        size="small"
+                        color="secondary"
+                        onClick={deleteProduct(item.id)}
+                      >
+                        <DeleteForeverIcon /> Delete Product
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              )
+          )}
         </Grid>
       </Paper>
     </Container>
