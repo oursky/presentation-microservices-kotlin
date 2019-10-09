@@ -17,12 +17,12 @@ const AUTH_HEADER = (token: String) => {
   };
 };
 
-const AUTH_PATH = (isMerchant: boolean) => (isMerchant ? "/merchant" : "/user");
+const AUTH_PATH = (isMerchant: boolean) => (isMerchant ? "/merchant" : "");
 
 const APIService = {
   Auth: {
-    login: (data: LoginData): Promise<LoginResult> =>
-      fetch(`${API_ENDPOINT}${API_PATH.AUTH}/login`, {
+    login: (data: LoginData, isMerchant: boolean): Promise<LoginResult> =>
+      fetch(`${API_ENDPOINT}${API_PATH.AUTH}${AUTH_PATH(isMerchant)}/login`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: HEADER,
@@ -38,8 +38,8 @@ const APIService = {
         headers: HEADER,
       }).then(res => res.json()),
 
-    verifyAccessToken: (token: String): Promise<number> =>
-      fetch(`${API_ENDPOINT}${API_PATH.AUTH}/verify`, {
+    verifyAccessToken: (token: String, isMerchant: boolean): Promise<number> =>
+      fetch(`${API_ENDPOINT}${API_PATH.AUTH}${AUTH_PATH(isMerchant)}/verify`, {
         method: "GET",
         headers: {
           ...HEADER,

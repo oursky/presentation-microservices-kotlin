@@ -116,8 +116,7 @@ export default function App() {
           return;
         }
         const result = await APIService.Products.delete(id, token);
-        if (!result.error) {
-          console.log("SSSSSSS:", result.error);
+        if (result.error) {
           closeConfirmDialog();
           setAlertProps({
             title: "Delete Product Result",

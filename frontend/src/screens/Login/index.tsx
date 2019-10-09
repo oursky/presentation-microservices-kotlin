@@ -20,7 +20,7 @@ import "./Login.scss";
 export default function Login() {
   const [loginResult, setLoginResult] = useState<string | undefined>();
   const [loginData, setLoginData] = useState<LoginData>({
-    user: "",
+    email: "",
     pass: "",
   });
   const [isMerchant, setIsMerchant] = useState<boolean>(false);
@@ -39,7 +39,7 @@ export default function Login() {
 
   function submitForm(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    APIService.Auth.login(loginData)
+    APIService.Auth.login(loginData, isMerchant)
       .then((result: LoginResult) => {
         if (result.error) {
           setLoginResult(result.error);
@@ -85,10 +85,10 @@ export default function Login() {
           <TextField
             required={true}
             fullWidth={true}
-            name="user"
+            name="email"
             variant="outlined"
             label="Username"
-            onChange={handleChange("user")}
+            onChange={handleChange("email")}
           />
 
           <br />
