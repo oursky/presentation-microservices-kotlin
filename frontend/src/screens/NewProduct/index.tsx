@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useCallback } from "react";
+import React, { useEffect, useState, FormEvent, useCallback } from "react";
 import APIService from "../../APIService";
 import {
   TextField,
@@ -10,6 +10,7 @@ import {
   Paper,
 } from "@material-ui/core";
 import AlertDialog from "../../components/AlertDialog";
+import { AlertDialogProps } from "../../interfaces/DialogsProps";
 import { AddProductResult } from "../../interfaces/APIResponses";
 import NewProductData from "../../interfaces/NewProductData";
 import Cookies from "../../Cookies";
@@ -17,8 +18,7 @@ import Cookies from "../../Cookies";
 import "./NewProduct.scss";
 
 export default function NewProduct() {
-  const [submitResult, setSubmitResult] = useState<string>("");
-  const [redirectTo, setRedirectTo] = useState<string | undefined>();
+  const [alertProps, setAlertProps] = useState<AlertDialogProps | undefined>();
   const [newProductData, setNewProductData] = useState<NewProductData>({
     name: "",
     description: "",
@@ -26,7 +26,21 @@ export default function NewProduct() {
     files: "",
   });
 
-  const setSubmitResultEmpty = useCallback(() => setSubmitResult(""), []);
+  const closePopup = useCallback(() => {
+    setAlertProps(undefined);
+  }, []);
+
+  const checkIsMerchant = useCallback(() => {
+    if (Cookies.getCookie("isMerchant") !== "true") {
+      setAlertProps({
+        title: "Unauthorized",
+        message: "Only Merchant can access this page.",
+        open: true,
+        onCloseClick: closePopup,
+        redirectTo: "/",
+      });
+    }
+  }, [closePopup]);
 
   const handleChange = (name: keyof NewProductData) => (
     event: React.ChangeEvent<HTMLInputElement>
@@ -34,46 +48,80 @@ export default function NewProduct() {
     setNewProductData({ ...newProductData, [name]: event.target.value });
   };
 
+  useEffect(() => {
+    checkIsMerchant();
+  });
+
   function submitForm(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formPrice = newProductData.price;
 
     if (typeof formPrice !== "string") {
-      setSubmitResult(`Incorrect product price!`);
-      setRedirectTo(undefined);
-      return;
-    }
-
-    const price = parseFloat(formPrice);
-    if (isNaN(price)) {
-      setSubmitResult(`Product Price is not a number !`);
-      setRedirectTo(undefined);
+      setAlertProps({
+        title: "Error",
+        message: "Incorrect Product Price !",
+        open: true,
+        onCloseClick: closePopup,
+        redirectTo: undefined,
+      });
       return;
     }
 
     const token = Cookies.getCookie("accessToken");
     if (token === null) {
-      setSubmitResult("Please login first.");
-      setRedirectTo("/login");
+      setAlertProps({
+        title: "Unauthorized",
+        message: "Please Login First",
+        open: true,
+        onCloseClick: closePopup,
+        redirectTo: "/login",
+      });
       return;
     }
+
+    const price = parseFloat(formPrice);
+    if (isNaN(price)) {
+      setAlertProps({
+        title: "Error",
+        message: "Price is not a number",
+        open: true,
+        onCloseClick: closePopup,
+        redirectTo: undefined,
+      });
+      return;
+    }
+
     const target = document.querySelector("form");
     if (!target) return;
 
     APIService.Products.add(new FormData(target), token)
       .then((result: AddProductResult) => {
         if (result.error) {
-          setSubmitResult(result.error);
-          setRedirectTo(undefined);
+          setAlertProps({
+            title: "Add Product Result",
+            message: result.error,
+            open: true,
+            onCloseClick: closePopup,
+            redirectTo: undefined,
+          });
           return;
         }
-
-        setSubmitResult(`New Prodcut Added !\nProduct ID: ${result.productId}`);
-        setRedirectTo("/");
+        setAlertProps({
+          title: "Add Product Result",
+          message: `New Prodcut Added !\nProduct ID: ${result.productId}`,
+          open: true,
+          onCloseClick: closePopup,
+          redirectTo: "/",
+        });
       })
       .catch(err => {
-        setSubmitResult(`Error: ${err}`);
-        setRedirectTo(undefined);
+        setAlertProps({
+          title: "Add Product Result",
+          message: `Error: ${err}`,
+          open: true,
+          onCloseClick: closePopup,
+          redirectTo: undefined,
+        });
       });
   }
 
@@ -81,13 +129,15 @@ export default function NewProduct() {
     <Container maxWidth="xs">
       <CssBaseline />
 
-      <AlertDialog
-        redirectTo={redirectTo}
-        title="Submit Result"
-        message={submitResult}
-        open={!!submitResult}
-        onCloseClick={setSubmitResultEmpty}
-      />
+      {alertProps && (
+        <AlertDialog
+          title={alertProps.title}
+          message={alertProps.message}
+          open={alertProps.open}
+          onCloseClick={alertProps.onCloseClick}
+          redirectTo={alertProps.redirectTo}
+        />
+      )}
 
       <Paper className="MyPaper">
         <Typography variant="h4">Add New Product</Typography>
