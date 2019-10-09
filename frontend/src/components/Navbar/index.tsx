@@ -59,7 +59,10 @@ export default function Navbar() {
     setAnchorEl(null);
   }
 
-  const doLogout = useCallback(() => Cookies.deleteCookie("accessToken"), []);
+  const doLogout = useCallback(() => {
+    Cookies.deleteCookie("accessToken");
+    Cookies.deleteCookie("isMerchant");
+  }, []);
 
   return (
     <div>
@@ -82,12 +85,6 @@ export default function Navbar() {
             <MenuItem className="menuItem">
               <Link className="menuItemText" to="/">
                 Products
-              </Link>
-            </MenuItem>
-
-            <MenuItem className="menuItem">
-              <Link className="menuItemText" to="/new">
-                Add Products
               </Link>
             </MenuItem>
           </section>
@@ -124,6 +121,28 @@ export default function Navbar() {
                 Profile
               </Link>
             </StyledMenuItem>
+
+            {Cookies.getCookie("isMerchant") === "true" && (
+              <>
+                <StyledMenuItem onClick={handleClose}>
+                  <Link
+                    to="/manage"
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    Manage Products
+                  </Link>
+                </StyledMenuItem>
+                <StyledMenuItem onClick={handleClose}>
+                  <Link
+                    to="/new"
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    Add Products
+                  </Link>
+                </StyledMenuItem>
+              </>
+            )}
+
             <StyledMenuItem onClick={handleClose}>
               <Button
                 onClick={doLogout}

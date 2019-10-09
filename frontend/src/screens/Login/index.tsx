@@ -51,6 +51,11 @@ export default function Login() {
             result.accessToken || "",
             getTimeAfter(TIME.TEN_MINUTE)
           );
+          Cookies.setCookie(
+            "isMerchant",
+            isMerchant.toString(),
+            getTimeAfter(TIME.TEN_MINUTE)
+          );
           localStorage.setItem("userId", (result.userId || "").toString());
           setRedirect(true);
         }
