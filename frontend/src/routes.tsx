@@ -8,6 +8,7 @@ import ShoppingCart from "./screens/ShoppingCart";
 import Login from "./screens/Login";
 import ForgotPassword from "./screens/ForgotPassword";
 import Register from "./screens/Register";
+import ManageProduct from "./screens/ManageProduct";
 
 const history = createBrowserHistory();
 
@@ -21,5 +22,6 @@ export default (
     <Route path="/login" exact={true} component={Login} />
     <Route path="/register" exact={true} component={Register} />
     <Route path="/forgot" exact={true} component={ForgotPassword} />
+    <Route path="/manage" exact={true} component={ManageProduct} />
   </Router>
 );
