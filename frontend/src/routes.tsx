@@ -15,7 +15,6 @@ const history = createBrowserHistory();
 export default (
   <Router history={history}>
     <Navbar />
-    <br />
     <Route path="/" exact={true} component={App} />
     <Route path="/new" exact={true} component={NewProductPage} />
     <Route path="/cart" exact={true} component={ShoppingCart} />

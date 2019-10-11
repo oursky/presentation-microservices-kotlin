@@ -65,7 +65,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <div>
+    <div className="mynavbar">
       <AppBar position="static">
         <Toolbar>
           <IconButton
