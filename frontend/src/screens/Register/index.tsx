@@ -78,7 +78,7 @@ export default function Register() {
         redirectTo={success ? "/" : undefined}
         title="Registeration Result"
         message={submitResult}
-        open={!!submitResult}
+        isOpen={!!submitResult}
         onCloseClick={setSubmitResultEmpty}
       />
 

@@ -16,14 +16,16 @@ import {
 
 import AlertDialog from "../../components/AlertDialog";
 import ConfirmDialog from "../../components/ConfirmDialog";
+import UpdateProductDialog from "../../components/UpdateProductDialog";
 import Loading from "../../components/Loading";
 import Product from "../../interfaces/Product";
-
 import DeleteForeverIcon from "@material-ui/icons/DeleteForeverOutlined";
+import UpdateIcon from "@material-ui/icons/UpdateOutlined";
 import APIService from "../../APIService";
 import {
   AlertDialogProps,
   ConfirmDialogProps,
+  UpdateProductDialogProps,
 } from "../../interfaces/DialogsProps";
 import Cookies from "../../Cookies";
 
@@ -31,19 +33,26 @@ export default function ManageProduct() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [items, setItems] = useState<Product[]>([]);
   const [alertProps, setAlertProps] = useState<AlertDialogProps | undefined>();
+  const [updateProductProps, setUpdateProductProps] = useState<
+    UpdateProductDialogProps | undefined
+  >();
   const [confirmProps, setConfirmProps] = useState<
     ConfirmDialogProps | undefined
   >({
     title: "",
     isOpen: false,
     onOk: () => {},
-    onClose: undefined,
+    onClose: () => {},
     message: "",
   });
   const userid = parseInt(localStorage.getItem("userId") || "-1", 10);
   const closePopup = useCallback(() => {
     setAlertProps(undefined);
   }, []);
+  const closeUpdateForm = useCallback(
+    () => setUpdateProductProps(undefined),
+    []
+  );
 
   const updateStateItems = useCallback(() => {
     APIService.Products.list()
@@ -57,7 +66,7 @@ export default function ManageProduct() {
           title: "Error",
           message:
             "Error occurred while getting products. Please make sure you have internet connection.",
-          open: true,
+          isOpen: true,
           onCloseClick: closePopup,
           redirectTo: undefined,
         });
@@ -69,7 +78,7 @@ export default function ManageProduct() {
       setAlertProps({
         title: "Unauthorized",
         message: "Only Merchant can access this page.",
-        open: true,
+        isOpen: true,
         onCloseClick: closePopup,
         redirectTo: "/",
       });
@@ -94,7 +103,7 @@ export default function ManageProduct() {
           setAlertProps({
             title: "Incorrect access token",
             message: "Please login first.",
-            open: true,
+            isOpen: true,
             onCloseClick: closePopup,
             redirectTo: "/login",
           });
@@ -106,7 +115,7 @@ export default function ManageProduct() {
           setAlertProps({
             title: "Delete Product Result",
             message: result.error,
-            open: true,
+            isOpen: true,
             onCloseClick: closePopup,
             redirectTo: undefined,
           });
@@ -117,7 +126,7 @@ export default function ManageProduct() {
         setAlertProps({
           title: "Delete Product Result",
           message: result ? "Product Deleted." : "Failed to delete product.",
-          open: true,
+          isOpen: true,
           onCloseClick: closePopup,
           redirectTo: undefined,
         });
@@ -127,13 +136,30 @@ export default function ManageProduct() {
         setAlertProps({
           title: "[Error] Delete Product",
           message: e,
-          open: true,
+          isOpen: true,
           onCloseClick: closePopup,
           redirectTo: undefined,
         });
       }
     },
     [updateStateItems, setAlertProps, closePopup, closeConfirmDialog]
+  );
+
+  const submitUpdateForm = useCallback(() => {
+    // APIService.update();
+    setUpdateProductProps(undefined);
+  }, []);
+
+  const updateProduct = useCallback(
+    (item: Product) => () => {
+      setUpdateProductProps({
+        product: item,
+        isOpen: true,
+        onClose: closeUpdateForm,
+        onSubmit: submitUpdateForm,
+      });
+    },
+    [closeUpdateForm, submitUpdateForm]
   );
 
   const deleteProduct = useCallback(
@@ -160,7 +186,7 @@ export default function ManageProduct() {
           <AlertDialog
             title={alertProps.title}
             message={alertProps.message}
-            open={alertProps.open}
+            isOpen={alertProps.isOpen}
             onCloseClick={alertProps.onCloseClick}
             redirectTo={alertProps.redirectTo}
           />
@@ -173,6 +199,15 @@ export default function ManageProduct() {
             isOpen={confirmProps.isOpen}
             onOk={confirmProps.onOk}
             onClose={confirmProps.onClose}
+          />
+        )}
+
+        {updateProductProps && (
+          <UpdateProductDialog
+            product={updateProductProps.product}
+            isOpen={updateProductProps.isOpen}
+            onClose={updateProductProps.onClose}
+            onSubmit={updateProductProps.onSubmit}
           />
         )}
 
@@ -226,6 +261,14 @@ export default function ManageProduct() {
                         onClick={deleteProduct(item.id)}
                       >
                         <DeleteForeverIcon /> Delete Product
+                      </Button>
+
+                      <Button
+                        size="small"
+                        color="primary"
+                        onClick={updateProduct(item)}
+                      >
+                        <UpdateIcon /> Update Product
                       </Button>
                     </CardActions>
                   </Card>

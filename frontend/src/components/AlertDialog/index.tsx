@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core/";
 
 export default function MyDialog({
-  open,
+  isOpen,
   onCloseClick,
   title,
   redirectTo,
@@ -19,7 +19,7 @@ export default function MyDialog({
 }: AlertDialogProps) {
   return (
     <Dialog
-      open={!!open}
+      open={!!isOpen}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >

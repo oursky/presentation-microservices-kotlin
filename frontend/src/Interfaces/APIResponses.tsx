@@ -1,20 +1,15 @@
 import Product from "./Product";
 
 export interface LoginResult {
-  userId: number | undefined;
-  accessToken: string | undefined;
-  error: string | undefined;
+  userId?: number;
+  accessToken?: string;
+  error?: string;
 }
 
 export interface RegisterResult {
-  userId: number | undefined;
-  accessToken: string | undefined;
-  error: string | undefined;
-}
-
-export interface DeleteProductResult {
-  success: boolean;
-  error: string | undefined;
+  userId?: number;
+  accessToken?: string;
+  error?: string;
 }
 
 export interface ListProductResult {
@@ -22,6 +17,6 @@ export interface ListProductResult {
 }
 
 export interface AddProductResult {
-  error: string | undefined;
+  error?: string;
   productId: number;
 }

@@ -52,7 +52,7 @@ export default function App() {
           title: "Error",
           message:
             "Error occurred while getting products. Please make sure you have internet connection.",
-          open: true,
+          isOpen: true,
           onCloseClick: closePopup,
           redirectTo: undefined,
         });
@@ -72,7 +72,7 @@ export default function App() {
       setAlertProps({
         title: "Successful",
         message: `Added ${cart[product.id.toString()].name} to shopping cart.`,
-        open: true,
+        isOpen: true,
         onCloseClick: closePopup,
         redirectTo: undefined,
       });
@@ -91,7 +91,7 @@ export default function App() {
           <AlertDialog
             title={alertProps.title}
             message={alertProps.message}
-            open={alertProps.open}
+            isOpen={alertProps.isOpen}
             onCloseClick={alertProps.onCloseClick}
             redirectTo={alertProps.redirectTo}
           />

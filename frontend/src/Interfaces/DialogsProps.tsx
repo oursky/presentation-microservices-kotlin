@@ -1,17 +1,25 @@
 import { MouseEventHandler } from "react";
+import Product from "./Product";
 
 export interface AlertDialogProps {
-  title: string | undefined;
-  message: string | undefined;
-  open: boolean | undefined;
-  onCloseClick: MouseEventHandler<unknown> | undefined;
-  redirectTo: string | undefined;
+  title: string;
+  message: string;
+  isOpen: boolean;
+  onCloseClick?: MouseEventHandler<unknown>;
+  redirectTo?: string;
 }
 
 export interface ConfirmDialogProps {
-  title: string | undefined;
-  message: string | undefined;
-  isOpen: boolean | undefined;
-  onClose: MouseEventHandler<unknown> | undefined;
-  onOk: () => void;
+  title: string;
+  message: string;
+  isOpen: boolean;
+  onClose?: MouseEventHandler<unknown>;
+  onOk?: () => void;
+}
+
+export interface UpdateProductDialogProps {
+  product: Product;
+  onSubmit?: () => void;
+  onClose?: MouseEventHandler<unknown>;
+  isOpen: boolean;
 }

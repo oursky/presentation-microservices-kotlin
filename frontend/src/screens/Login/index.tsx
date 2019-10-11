@@ -18,7 +18,7 @@ import { TIME, getTimeAfter } from "../../Utils";
 import "./Login.scss";
 
 export default function Login() {
-  const [loginResult, setLoginResult] = useState<string | undefined>();
+  const [loginResult, setLoginResult] = useState<string>("");
   const [loginData, setLoginData] = useState<LoginData>({
     email: "",
     pass: "",
@@ -26,7 +26,7 @@ export default function Login() {
   const [isMerchant, setIsMerchant] = useState<boolean>(false);
   const [redirect, setRedirect] = useState<boolean>(false);
 
-  const setLoginResultNull = useCallback(() => setLoginResult(undefined), []);
+  const setLoginResultNull = useCallback(() => setLoginResult(""), []);
   const updateIsMerchant = useCallback(() => setIsMerchant(!isMerchant), [
     isMerchant,
   ]);
@@ -75,7 +75,7 @@ export default function Login() {
         redirectTo={redirect ? "/" : undefined}
         title="Login Result"
         message={loginResult}
-        open={!!loginResult}
+        isOpen={!!loginResult}
         onCloseClick={setLoginResultNull}
       />
 

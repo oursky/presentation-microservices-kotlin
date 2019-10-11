@@ -1,4 +1,4 @@
 export default interface LoginData {
-  email: String;
-  pass: String;
+  email: string;
+  pass: string;
 }

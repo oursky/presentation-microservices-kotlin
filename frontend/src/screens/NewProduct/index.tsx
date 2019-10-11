@@ -35,7 +35,7 @@ export default function NewProduct() {
       setAlertProps({
         title: "Unauthorized",
         message: "Only Merchant can access this page.",
-        open: true,
+        isOpen: true,
         onCloseClick: closePopup,
         redirectTo: "/",
       });
@@ -60,7 +60,7 @@ export default function NewProduct() {
       setAlertProps({
         title: "Error",
         message: "Incorrect Product Price !",
-        open: true,
+        isOpen: true,
         onCloseClick: closePopup,
         redirectTo: undefined,
       });
@@ -72,7 +72,7 @@ export default function NewProduct() {
       setAlertProps({
         title: "Unauthorized",
         message: "Please Login First",
-        open: true,
+        isOpen: true,
         onCloseClick: closePopup,
         redirectTo: "/login",
       });
@@ -84,7 +84,7 @@ export default function NewProduct() {
       setAlertProps({
         title: "Error",
         message: "Price is not a number",
-        open: true,
+        isOpen: true,
         onCloseClick: closePopup,
         redirectTo: undefined,
       });
@@ -100,7 +100,7 @@ export default function NewProduct() {
           setAlertProps({
             title: "Add Product Result",
             message: result.error,
-            open: true,
+            isOpen: true,
             onCloseClick: closePopup,
             redirectTo: undefined,
           });
@@ -109,7 +109,7 @@ export default function NewProduct() {
         setAlertProps({
           title: "Add Product Result",
           message: `New Prodcut Added !\nProduct ID: ${result.productId}`,
-          open: true,
+          isOpen: true,
           onCloseClick: closePopup,
           redirectTo: "/",
         });
@@ -118,7 +118,7 @@ export default function NewProduct() {
         setAlertProps({
           title: "Add Product Result",
           message: `Error: ${err}`,
-          open: true,
+          isOpen: true,
           onCloseClick: closePopup,
           redirectTo: undefined,
         });
@@ -133,7 +133,7 @@ export default function NewProduct() {
         <AlertDialog
           title={alertProps.title}
           message={alertProps.message}
-          open={alertProps.open}
+          isOpen={alertProps.isOpen}
           onCloseClick={alertProps.onCloseClick}
           redirectTo={alertProps.redirectTo}
         />
