@@ -6,12 +6,12 @@ const API_PATH = {
   AUTH: "/auth",
   PRODUCT: "/product/",
 };
-const HEADER = {
+const HEADERS = {
   Accept: "application/json",
   "Content-Type": "application/json",
 };
 
-const AUTH_HEADER = (token: String) => {
+const AUTH_HEADER = (token: string) => {
   return {
     Authorization: `Bearer ${token}`,
   };
@@ -25,7 +25,7 @@ const APIService = {
       fetch(`${API_ENDPOINT}${API_PATH.AUTH}${AUTH_PATH(isMerchant)}/login`, {
         method: "POST",
         body: JSON.stringify(data),
-        headers: HEADER,
+        headers: HEADERS,
       }).then(res => res.json()),
 
     register: (
@@ -35,21 +35,21 @@ const APIService = {
       fetch(`${API_ENDPOINT}${API_PATH.AUTH}${AUTH_PATH(isMerchant)}/signup`, {
         method: "POST",
         body: JSON.stringify(data),
-        headers: HEADER,
+        headers: HEADERS,
       }).then(res => res.json()),
 
-    verifyAccessToken: (token: String, isMerchant: boolean): Promise<number> =>
+    verifyAccessToken: (token: string, isMerchant: boolean): Promise<number> =>
       fetch(`${API_ENDPOINT}${API_PATH.AUTH}${AUTH_PATH(isMerchant)}/verify`, {
         method: "GET",
         headers: {
-          ...HEADER,
+          ...HEADERS,
           ...AUTH_HEADER(token),
         },
       }).then(res => res.status),
   },
 
   Products: {
-    delete: (id: number, token: String) =>
+    delete: (id: number, token: string) =>
       fetch(`${API_ENDPOINT}${API_PATH.PRODUCT}${id}`, {
         method: "DELETE",
         headers: AUTH_HEADER(token),
@@ -60,13 +60,19 @@ const APIService = {
         .then(res => res.json())
         .then(result => result.products),
 
-    add: (data: FormData, token: String) => {
-      return fetch(`${API_ENDPOINT}${API_PATH.PRODUCT}`, {
+    add: (data: FormData, token: string) =>
+      fetch(`${API_ENDPOINT}${API_PATH.PRODUCT}`, {
         method: "POST",
         body: data,
         headers: AUTH_HEADER(token),
-      }).then(res => res.json());
-    },
+      }).then(res => res.json()),
+
+    update: (id: number, data: FormData, token: string) =>
+      fetch(`${API_ENDPOINT}${API_PATH.PRODUCT}/${id}`, {
+        method: "PUT",
+        body: data,
+        headers: AUTH_HEADER(token),
+      }).then(res => res.json()),
   },
 };
 
