@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { UpdateProductDialogProps } from "../../interfaces/DialogsProps";
+
 import {
   Button,
   Dialog,
@@ -22,15 +23,24 @@ export default function MyDialog({
 }: UpdateProductDialogProps) {
   const [updateProductData, setUpdateProductData] = useState<NewProductData>({
     files: "",
-    name: "",
-    description: "",
-    price: -1,
+    name: product.name,
+    description: product.description,
+    price: product.price,
   });
+  const [isIncorrectPrice, setIsIncorrectPrice] = useState<boolean>(false);
 
   const handleChange = (name: keyof NewProductData) => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setUpdateProductData({ ...updateProductData, [name]: event.target.value });
+    if (name === "price") {
+      const priceInFloat = parseFloat(event.target.value);
+      setIsIncorrectPrice(isNaN(priceInFloat));
+    }
+
+    setUpdateProductData({
+      ...updateProductData,
+      [name]: event.target.value,
+    });
   };
 
   return (
@@ -53,7 +63,7 @@ export default function MyDialog({
             name="name"
             variant="outlined"
             label="name"
-            value={product.name}
+            value={updateProductData.name}
             onChange={handleChange("name")}
           />
 
@@ -67,7 +77,7 @@ export default function MyDialog({
             variant="outlined"
             label="Product Description"
             onChange={handleChange("description")}
-            value={product.description}
+            value={updateProductData.description}
           />
 
           <br />
@@ -80,8 +90,9 @@ export default function MyDialog({
             name="price"
             label="Product Price"
             variant="outlined"
+            error={isIncorrectPrice}
             onChange={handleChange("price")}
-            value={product.price}
+            value={updateProductData.price}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
@@ -92,7 +103,11 @@ export default function MyDialog({
       </DialogContent>
       <DialogActions>
         {onSubmit && (
-          <Button fullWidth={true} color="primary" onClick={onSubmit}>
+          <Button
+            fullWidth={true}
+            color="primary"
+            onClick={onSubmit(product.id, updateProductData)}
+          >
             Submit
           </Button>
         )}

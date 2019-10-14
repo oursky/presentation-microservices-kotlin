@@ -1,4 +1,5 @@
 import LoginData from "../interfaces/LoginData";
+import NewProductData from "../interfaces/NewProductData";
 import RegisterData from "../interfaces/RegisterData";
 import { LoginResult, RegisterResult } from "../interfaces/APIResponses";
 const API_ENDPOINT = "http://localhost:8080";
@@ -67,12 +68,18 @@ const APIService = {
         headers: AUTH_HEADER(token),
       }).then(res => res.json()),
 
-    update: (id: number, data: FormData, token: string) =>
-      fetch(`${API_ENDPOINT}${API_PATH.PRODUCT}/${id}`, {
+    update: (id: number, data: NewProductData, token: string) => {
+      console.log(id);
+      const reqBody = new FormData();
+      reqBody.append("name", data.name);
+      reqBody.append("description", data.description);
+      reqBody.append("price", data.price.toString());
+      return fetch(`${API_ENDPOINT}${API_PATH.PRODUCT}${id}`, {
         method: "PUT",
-        body: data,
+        body: reqBody,
         headers: AUTH_HEADER(token),
-      }).then(res => res.json()),
+      }).then(res => res.json());
+    },
   },
 };
 

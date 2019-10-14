@@ -28,6 +28,7 @@ import {
   UpdateProductDialogProps,
 } from "../../interfaces/DialogsProps";
 import Cookies from "../../Cookies";
+import NewProductData from "../../interfaces/NewProductData";
 
 export default function ManageProduct() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -145,10 +146,47 @@ export default function ManageProduct() {
     [updateStateItems, setAlertProps, closePopup, closeConfirmDialog]
   );
 
-  const submitUpdateForm = useCallback(() => {
-    // APIService.update();
-    setUpdateProductProps(undefined);
-  }, []);
+  const submitUpdate = useCallback(
+    (id: number, updatedProduct: NewProductData) => () => {
+      const token = Cookies.getCookie("accessToken");
+      if (token === null) {
+        setAlertProps({
+          title: "Incorrect access token",
+          message: "Please login first.",
+          isOpen: true,
+          onCloseClick: closePopup,
+          redirectTo: "/login",
+        });
+        return;
+      }
+      console.log(id, updatedProduct);
+      APIService.Products.update(id, updatedProduct, token)
+        .then(r => {
+          console.log("Result: ", r);
+          closeUpdateForm();
+          setAlertProps({
+            title: "Update Product Result",
+            message: "Product Updated !",
+            isOpen: true,
+            onCloseClick: closePopup,
+            redirectTo: undefined,
+          });
+          updateStateItems();
+        })
+        .catch(e => {
+          console.log("Error: ", e);
+          closeUpdateForm();
+          setAlertProps({
+            title: "Update Product Result",
+            message: "Error updating Product." + e,
+            isOpen: true,
+            onCloseClick: closePopup,
+            redirectTo: undefined,
+          });
+        });
+    },
+    [closePopup, closeUpdateForm, updateStateItems]
+  );
 
   const updateProduct = useCallback(
     (item: Product) => () => {
@@ -156,10 +194,10 @@ export default function ManageProduct() {
         product: item,
         isOpen: true,
         onClose: closeUpdateForm,
-        onSubmit: submitUpdateForm,
+        onSubmit: submitUpdate,
       });
     },
-    [closeUpdateForm, submitUpdateForm]
+    [closeUpdateForm, submitUpdate]
   );
 
   const deleteProduct = useCallback(

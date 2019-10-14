@@ -1,5 +1,6 @@
 import { MouseEventHandler } from "react";
 import Product from "./Product";
+import NewProductData from "./NewProductData";
 
 export interface AlertDialogProps {
   title: string;
@@ -19,7 +20,7 @@ export interface ConfirmDialogProps {
 
 export interface UpdateProductDialogProps {
   product: Product;
-  onSubmit?: () => void;
   onClose?: MouseEventHandler<unknown>;
+  onSubmit?: (id: number, updatedProduct: NewProductData) => () => void;
   isOpen: boolean;
 }
