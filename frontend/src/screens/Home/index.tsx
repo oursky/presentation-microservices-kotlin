@@ -98,9 +98,17 @@ export default function App() {
   ) : (
     <Container>
       <CssBaseline />
-      <Button color="primary" onClick={toggleBiggerMode}>
-        Change View Mode
-      </Button>
+      <Typography align="right">
+        Items:
+        <Button onClick={toggleBiggerMode} disabled={isBiggerMode}>
+          3
+        </Button>
+        |
+        <Button onClick={toggleBiggerMode} disabled={!isBiggerMode}>
+          4
+        </Button>
+      </Typography>
+
       <Paper>
         {alertProps && (
           <AlertDialog
