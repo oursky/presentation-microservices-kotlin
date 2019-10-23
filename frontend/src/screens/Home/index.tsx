@@ -25,6 +25,7 @@ import APIService from "../../APIService";
 import { AlertDialogProps } from "../../interfaces/DialogsProps";
 
 export default function App() {
+  const [isBiggerMode, setIsBiggerMode] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [items, setItems] = useState<Product[]>([]);
   const [cart, setCart] = useState<Cart>({});
@@ -35,6 +36,18 @@ export default function App() {
       setCart(JSON.parse(storageCart));
     }
   }, []);
+
+  const getDescriptionMaxTextLength = useCallback(
+    () => (isBiggerMode ? 40 : 29),
+    [isBiggerMode]
+  );
+  const getNameMaxTextLength = useCallback(() => (isBiggerMode ? 25 : 15), [
+    isBiggerMode,
+  ]);
+
+  const toggleBiggerMode = useCallback(() => {
+    setIsBiggerMode(!isBiggerMode);
+  }, [isBiggerMode]);
 
   const closePopup = useCallback(() => {
     setAlertProps(undefined);
@@ -85,7 +98,9 @@ export default function App() {
   ) : (
     <Container>
       <CssBaseline />
-
+      <Button color="primary" onClick={toggleBiggerMode}>
+        Change View Mode
+      </Button>
       <Paper>
         {alertProps && (
           <AlertDialog
@@ -106,24 +121,33 @@ export default function App() {
         >
           {items.map((item: Product) => (
             <Grid item={true} key={item.id}>
-              <Card className="myCard">
+              <Card className={isBiggerMode ? "biggerCard" : "myCard"}>
                 <CardActionArea>
-                  {item.image && (
-                    <CardMedia
-                      image={"http://localhost:9000/images/" + item.image}
-                      style={{ height: 140 }}
-                    />
-                  )}
+                  <CardMedia
+                    image={
+                      item.image
+                        ? "http://localhost:9000/images/" + item.image
+                        : "//cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png"
+                    }
+                    style={{ height: 140 }}
+                  />
                   <CardContent>
                     <Typography gutterBottom={true} variant="h5" component="h2">
-                      {item.name}
+                      {item.name.length > getNameMaxTextLength()
+                        ? `${item.name.substring(0, getNameMaxTextLength())}...`
+                        : item.name}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      {item.description}
+                      {item.description.length > getDescriptionMaxTextLength()
+                        ? `${item.description.substring(
+                            0,
+                            getDescriptionMaxTextLength()
+                          )}...`
+                        : item.description}
                     </Typography>
                     <Typography
                       variant="body2"
