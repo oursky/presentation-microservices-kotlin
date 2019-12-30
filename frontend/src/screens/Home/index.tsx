@@ -18,7 +18,6 @@ import AlertDialog from "../../components/AlertDialog";
 import Loading from "../../components/Loading";
 import Product from "../../interfaces/Product";
 import Cart from "../../interfaces/Cart";
-
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCartOutlined";
 import "./Home.scss";
 import APIService from "../../APIService";
@@ -134,8 +133,8 @@ export default function App() {
                   <CardMedia
                     image={
                       item.image
-                        ? "http://localhost:9000/images/" + item.image
-                        : "//cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png"
+                        ? process.env.REACT_APP_IMAGE_ENDPOINT + item.image
+                        : process.env.REACT_APP_DEFAULT_IMAGE
                     }
                     style={{ height: 140 }}
                   />

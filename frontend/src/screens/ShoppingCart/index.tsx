@@ -78,7 +78,7 @@ export default function ShoppingCart() {
                       {product.image && (
                         <Avatar
                           alt={product.name}
-                          src={`http://localhost:9000/images/${product.image}`}
+                          src={`${process.env.REACT_APP_IMAGE_ENDPOINT}${product.image}`}
                         />
                       )}
                     </ListItemAvatar>

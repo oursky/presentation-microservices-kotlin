@@ -53,7 +53,7 @@ export default function MyDialog({
       <DialogContent>
         {product.image && (
           <CardMedia
-            image={"http://localhost:9000/images/" + product.image}
+            image={process.env.REACT_APP_IMAGE_ENDPOINT + product.image}
             style={{ height: 140 }}
           />
         )}

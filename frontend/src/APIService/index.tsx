@@ -2,7 +2,7 @@ import LoginData from "../interfaces/LoginData";
 import NewProductData from "../interfaces/NewProductData";
 import RegisterData from "../interfaces/RegisterData";
 import { LoginResult, RegisterResult } from "../interfaces/APIResponses";
-const API_ENDPOINT = "http://localhost:8080";
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const API_PATH = {
   AUTH: "/auth",
   PRODUCT: "/product/",
@@ -69,7 +69,6 @@ const APIService = {
       }).then(res => res.json()),
 
     update: (id: number, data: NewProductData, token: string) => {
-      console.log(id);
       const reqBody = new FormData();
       reqBody.append("name", data.name);
       reqBody.append("description", data.description);

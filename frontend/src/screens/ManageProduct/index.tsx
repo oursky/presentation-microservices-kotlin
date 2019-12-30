@@ -264,7 +264,9 @@ export default function ManageProduct() {
                     <CardActionArea>
                       {item.image && (
                         <CardMedia
-                          image={"http://localhost:9000/images/" + item.image}
+                          image={
+                            process.env.REACT_APP_IMAGE_ENDPOINT + item.image
+                          }
                           style={{ height: 140 }}
                         />
                       )}
