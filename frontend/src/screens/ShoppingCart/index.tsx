@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   List,
   Divider,
@@ -36,18 +36,20 @@ export default function ShoppingCart() {
     setIsLoaded(true);
   }, [updated]);
 
-  function deleteProductFromCart(id: string) {
-    console.log(cart[id]);
-    delete cart[id];
-    localStorage.setItem("cart", JSON.stringify(cart));
-    setCart(cart);
-    setUpdated(updated + 1);
-  }
+  const deleteProductFromCart = useCallback(
+    (id: string) => {
+      delete cart[id];
+      localStorage.setItem("cart", JSON.stringify(cart));
+      setCart(cart);
+      setUpdated(updated + 1);
+    },
+    [cart, updated]
+  );
 
-  function deleteAllProductFromCart() {
+  const deleteAllProductFromCart = useCallback(() => {
     localStorage.setItem("cart", "");
     setCart({});
-  }
+  }, []);
 
   let subTotal = 0;
 
