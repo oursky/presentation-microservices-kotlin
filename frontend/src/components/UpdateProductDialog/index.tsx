@@ -45,7 +45,7 @@ export default function MyDialog({
 
   return (
     <Dialog
-      open={!!isOpen}
+      open={isOpen}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >

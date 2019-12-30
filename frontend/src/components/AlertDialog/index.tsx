@@ -19,7 +19,7 @@ export default function MyDialog({
 }: AlertDialogProps) {
   return (
     <Dialog
-      open={!!isOpen}
+      open={isOpen}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
